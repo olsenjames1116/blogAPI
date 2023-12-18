@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 import SignUpForm from '../SignUpForm/SignUpForm';
+import FormMessage from '../FormMessage/FormMessage';
 
 function SignUpPage() {
 	const [errors, setErrors] = useState([]);
@@ -68,15 +69,7 @@ function SignUpPage() {
 			<div className="content">
 				<h2>Sign Up</h2>
 				<SignUpForm handleChange={handleChange} handleSubmit={handleSubmit} />
-				{success ? (
-					<span>{errors}</span>
-				) : (
-					<ul>
-						{errors.map((error, index) => (
-							<li key={index}>{error.msg}</li>
-						))}
-					</ul>
-				)}
+				<FormMessage errors={errors} success={success} />
 			</div>
 		</main>
 	);
