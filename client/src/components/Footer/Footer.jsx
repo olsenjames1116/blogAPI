@@ -1,11 +1,12 @@
 import React from 'react';
 import AuthorCredit from '../AuthorCredit/AuthorCredit';
+import Sources from '../Sources/Sources';
 
 function Footer() {
 	return (
 		<footer>
 			<AuthorCredit />
-			<div className="sources">Sources</div>
+			<Sources />
 		</footer>
 	);
 }
