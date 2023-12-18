@@ -21,6 +21,12 @@ function SignUp() {
 		});
 	};
 
+	const handleSuccess = (errors) => {
+		clearForm();
+		setErrors(errors);
+		setTimeout(() => (window.location.href = '/'), 5000);
+	};
+
 	const handleSubmit = async (event) => {
 		try {
 			event.preventDefault();
@@ -33,9 +39,8 @@ function SignUp() {
 				}
 			);
 			const { errors, success } = response.data;
-			success && clearForm();
+			success ? handleSuccess(errors) : setErrors([...errors]);
 			setSuccess(success);
-			success ? setErrors(errors) : setErrors([...errors]);
 		} catch (err) {
 			console.log(err);
 		}

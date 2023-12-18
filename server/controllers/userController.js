@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const { body, validationResult } = require('express-validator');
+const bcrypt = require('bcrypt');
 
 // Validate and sanitize fields to create user.
 exports.validateUserCreate = [
@@ -26,6 +27,18 @@ exports.validateUserCreate = [
 		.withMessage('Password must match.'),
 ];
 
+// Hash the password before storing in the database.
+const storeUser = (user) => {
+	bcrypt.hash(user.password, 10, async (err, hashedPassword) => {
+		if (err) {
+			return next(err);
+		} else {
+			user.password = hashedPassword;
+			await user.save();
+		}
+	});
+};
+
 exports.userCreatePost =
 	// Process request after validation and sanitization.
 	async (req, res, next) => {
@@ -43,13 +56,14 @@ exports.userCreatePost =
 			if (!errors.isEmpty()) {
 				// There are errors. Render form again with sanitized values/error messages.
 				res.json({
-					user: user,
 					errors: errors.array(),
 					success: false,
 				});
 
 				return;
 			} else {
+				// Data from the form is valid. Save the user.
+				storeUser(user);
 				res.json({
 					success: true,
 					errors:
