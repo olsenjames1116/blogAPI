@@ -47,10 +47,11 @@ exports.userCreatePost =
 			const errors = validationResult(req);
 
 			// Create a User object with escaped and trimmed data.
+			const { username, password, confirmPassword } = req.body;
 			const user = new User({
-				username: req.body.username,
-				password: req.body.password,
-				confirmPassword: req.body.confirmPassword,
+				username: username,
+				password: password,
+				confirmPassword: confirmPassword,
 			});
 
 			if (!errors.isEmpty()) {
