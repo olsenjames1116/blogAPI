@@ -6,7 +6,6 @@
 		"start": "node ./bin/www",
 		"devstart": "nodemon ./bin/www"
 	},
-	"proxy": "http://localhost:4000",
 	"dependencies": {
 		"cookie-parser": "~1.4.4",
 		"cors": "^2.8.5",

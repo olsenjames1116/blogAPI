@@ -20,12 +20,9 @@ exports.validateUserCreate = [
 		.escape()
 		.notEmpty()
 		.withMessage('Confirmation password must not be empty.')
-		.custom(
-			(confirmPassword,
-			(req) => {
-				return confirmPassword === req.body.password;
-			})
-		)
+		.custom((confirmPassword, { req }) => {
+			return confirmPassword === req.body.password;
+		})
 		.withMessage('Password must match.'),
 ];
 
@@ -47,12 +44,17 @@ exports.userCreatePost =
 				// There are errors. Render form again with sanitized values/error messages.
 				res.json({
 					user: user,
-					errors: errors,
+					errors: errors.array(),
+					success: false,
 				});
 
 				return;
 			} else {
-				res.send('User has been saved.');
+				res.json({
+					success: true,
+					errors:
+						'Your account has been created. You will be redirected to log in.',
+				});
 			}
 		} catch (err) {
 			return next(err);
