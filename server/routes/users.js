@@ -1,11 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
+const userController = require('../controllers/userController');
+
 /* GET users listing. */
-router.get('/', function (req, res, next) {
-	res.json({
-		title: 'users',
-	});
-});
+router.get('/sign-up', userController.userCreateGet);
 
 module.exports = router;
