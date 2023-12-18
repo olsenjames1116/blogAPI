@@ -64,45 +64,48 @@ function SignUp() {
 
 	return (
 		<main className="signUp">
-			<form method="POST" action="/api/user/sign-up" onSubmit={handleSubmit}>
-				<div>
-					<label htmlFor="username">Username:</label>
-					<input
-						id="username"
-						name="username"
-						type="text"
-						onChange={handleChange}
-					/>
-				</div>
-				<div>
-					<label htmlFor="password">Password:</label>
-					<input
-						id="password"
-						name="password"
-						type="password"
-						onChange={handleChange}
-					/>
-				</div>
-				<div>
-					<label htmlFor="confirmPassword">Confirm Password:</label>
-					<input
-						id="confirmPassword"
-						name="confirmPassword"
-						type="password"
-						onChange={handleChange}
-					/>
-				</div>
-				<button type="submit">Submit</button>
-			</form>
-			{success ? (
-				<span>{errors}</span>
-			) : (
-				<ul>
-					{errors.map((error, index) => (
-						<li key={index}>{error.msg}</li>
-					))}
-				</ul>
-			)}
+			<div className="content">
+				<h2>Sign Up</h2>
+				<form method="POST" action="/api/user/sign-up" onSubmit={handleSubmit}>
+					<div>
+						<label htmlFor="username">Username:</label>
+						<input
+							id="username"
+							name="username"
+							type="text"
+							onChange={handleChange}
+						/>
+					</div>
+					<div>
+						<label htmlFor="password">Password:</label>
+						<input
+							id="password"
+							name="password"
+							type="password"
+							onChange={handleChange}
+						/>
+					</div>
+					<div>
+						<label htmlFor="confirmPassword">Confirm Password:</label>
+						<input
+							id="confirmPassword"
+							name="confirmPassword"
+							type="password"
+							onChange={handleChange}
+						/>
+					</div>
+					<button type="submit">Submit</button>
+				</form>
+				{success ? (
+					<span>{errors}</span>
+				) : (
+					<ul>
+						{errors.map((error, index) => (
+							<li key={index}>{error.msg}</li>
+						))}
+					</ul>
+				)}
+			</div>
 		</main>
 	);
 }
