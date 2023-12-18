@@ -4,7 +4,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import SignUpForm from '../SignUpForm/SignUpForm';
 
-function SignUp() {
+function SignUpPage() {
 	const [errors, setErrors] = useState([]);
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
@@ -82,4 +82,4 @@ function SignUp() {
 	);
 }
 
-export default SignUp;
+export default SignUpPage;
