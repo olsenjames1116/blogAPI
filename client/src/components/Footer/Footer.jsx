@@ -1,12 +1,10 @@
 import React from 'react';
+import AuthorCredit from '../AuthorCredit/AuthorCredit';
 
 function Footer() {
 	return (
 		<footer>
-			<div className="authorCredit">
-				Built and designed by{' '}
-				<a href="https://github.com/olsenjames1116">olsenjames1116</a>
-			</div>
+			<AuthorCredit />
 			<div className="sources">Sources</div>
 		</footer>
 	);
