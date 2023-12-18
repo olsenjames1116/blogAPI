@@ -2,6 +2,7 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import axios from 'axios';
+import SignUpForm from '../SignUpForm/SignUpForm';
 
 function SignUp() {
 	const [errors, setErrors] = useState([]);
@@ -24,7 +25,7 @@ function SignUp() {
 	const handleSuccess = (errors) => {
 		clearForm();
 		setErrors(errors);
-		setTimeout(() => (window.location.href = '/'), 5000);
+		setTimeout(() => (window.location.href = '/'), 3000);
 	};
 
 	const handleSubmit = async (event) => {
@@ -66,36 +67,7 @@ function SignUp() {
 		<main className="signUp">
 			<div className="content">
 				<h2>Sign Up</h2>
-				<form method="POST" action="/api/user/sign-up" onSubmit={handleSubmit}>
-					<div>
-						<label htmlFor="username">Username:</label>
-						<input
-							id="username"
-							name="username"
-							type="text"
-							onChange={handleChange}
-						/>
-					</div>
-					<div>
-						<label htmlFor="password">Password:</label>
-						<input
-							id="password"
-							name="password"
-							type="password"
-							onChange={handleChange}
-						/>
-					</div>
-					<div>
-						<label htmlFor="confirmPassword">Confirm Password:</label>
-						<input
-							id="confirmPassword"
-							name="confirmPassword"
-							type="password"
-							onChange={handleChange}
-						/>
-					</div>
-					<button type="submit">Submit</button>
-				</form>
+				<SignUpForm handleChange={handleChange} handleSubmit={handleSubmit} />
 				{success ? (
 					<span>{errors}</span>
 				) : (
