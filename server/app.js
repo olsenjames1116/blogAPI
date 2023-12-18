@@ -4,10 +4,23 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
+const mongoose = require('mongoose');
+require('dotenv').config();
 
 const usersRouter = require('./routes/users');
 
 const app = express();
+
+// Set up mongoose connection.
+mongoose.set('strictQuery', false);
+
+const mongoDB = process.env.PRODDB_URI || process.env.DEVDB_URI;
+main().catch((err) => {
+	console.log(err);
+});
+async function main() {
+	await mongoose.connect(mongoDB);
+}
 
 app.use(cors());
 app.use(logger('dev'));
