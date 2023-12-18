@@ -1,10 +1,11 @@
 import React from 'react';
+import Logo from '../Logo/Logo';
 
 function Header() {
 	return (
 		<header>
 			<nav>
-				<div className="logo">Pub Chair Sports</div>
+				<Logo />
 				<ul className="links">
 					<li>
 						<a href="/sign-up">Sign Up</a>
