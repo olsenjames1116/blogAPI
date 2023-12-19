@@ -8,10 +8,10 @@ export const isLoggedInSlice = createSlice({
 	},
 	reducers: {
 		logIn: (state) => {
-			state.value = !state.value;
+			return { ...state, value: true };
 		},
 		logOut: (state) => {
-			state.value = !state.value;
+			return { ...state, value: false };
 		},
 	},
 });

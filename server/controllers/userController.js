@@ -3,6 +3,22 @@ const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+// Authenticate user token.
+exports.authenticateToken = (req, res, next) => {
+	const authHeader = req.headers['authorization'];
+	const token = authHeader && authHeader.split(' ')[1];
+	if (token) return res.status(401).send('User is not authorized.');
+
+	// Anything under here means the user has a token.
+	jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+		if (err) return res.status(403).send('You do not have access.');
+
+		//Anything under here means the user has a valid token.
+		req.user = user;
+		next();
+	});
+};
+
 // Validate and sanitize fields to create user.
 exports.validateUserCreate = [
 	body('username')
@@ -100,19 +116,3 @@ exports.userLogInPost =
 			res.status(500).send('Could not log user in.');
 		}
 	};
-
-// Authenticate user token.
-const authenticateToken = (req, res, next) => {
-	const authHeader = req.headers['authorization'];
-	const token = authHeader && authHeader.split(' ')[1];
-	if (token) return res.status(401).send('User is not authorized.');
-
-	// Anything under here means the user has a token.
-	jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-		if (err) return res.status(403).send('You do not have access.');
-
-		//Anything under here means the user has a valid token.
-		req.user = user;
-		next();
-	});
-};

@@ -1,9 +1,10 @@
-import React from 'react';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import SignUpForm from '../SignUpForm/SignUpForm';
 import FormMessage from '../FormMessage/FormMessage';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { logIn } from '../../redux/state/isLoggedInSlice';
 
 function SignUpPage() {
 	const [errors, setErrors] = useState([]);
@@ -12,8 +13,30 @@ function SignUpPage() {
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [status, setStatus] = useState();
 
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
+	const isLoggedIn = useSelector((state) => state.isLoggedIn.value);
+
 	useEffect(() => {
 		document.title = 'Sign Up';
+
+		const fetchStatus = async () => {
+			try {
+				await axios.get('http://localhost:4000/api/user/sign-up');
+				console.log(isLoggedIn);
+			} catch (err) {
+				const { status } = err.response;
+				if (status === 403) {
+					dispatch(logIn());
+					console.log(isLoggedIn);
+					navigate('/');
+				} else {
+					console.log(err);
+				}
+			}
+		};
+
+		fetchStatus();
 	}, []);
 
 	const clearForm = () => {
@@ -26,7 +49,7 @@ function SignUpPage() {
 	const handleSuccess = (errors) => {
 		clearForm();
 		setErrors(errors);
-		setTimeout(() => (window.location.href = '/log-in'), 3000);
+		setTimeout(() => navigate('/log-in'), 3000);
 	};
 
 	const handleSubmit = async (event) => {
