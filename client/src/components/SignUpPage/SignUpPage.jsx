@@ -10,7 +10,7 @@ function SignUpPage() {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
-	const [success, setSuccess] = useState();
+	const [status, setStatus] = useState();
 
 	useEffect(() => {
 		document.title = 'Sign Up';
@@ -26,7 +26,7 @@ function SignUpPage() {
 	const handleSuccess = (errors) => {
 		clearForm();
 		setErrors(errors);
-		setTimeout(() => (window.location.href = '/'), 3000);
+		setTimeout(() => (window.location.href = '/log-in'), 3000);
 	};
 
 	const handleSubmit = async (event) => {
@@ -40,9 +40,10 @@ function SignUpPage() {
 					confirmPassword: confirmPassword,
 				}
 			);
-			const { errors, success } = response.data;
-			success ? handleSuccess(errors) : setErrors([...errors]);
-			setSuccess(success);
+			const { errors } = response.data;
+			const { status } = response;
+			status === 201 ? handleSuccess(errors) : setErrors([...errors]);
+			setStatus(status);
 		} catch (err) {
 			console.log(err);
 		}
@@ -69,7 +70,7 @@ function SignUpPage() {
 			<div className="content">
 				<h2>Sign Up</h2>
 				<SignUpForm handleChange={handleChange} handleSubmit={handleSubmit} />
-				<FormMessage errors={errors} success={success} />
+				<FormMessage errors={errors} status={status} />
 			</div>
 		</main>
 	);

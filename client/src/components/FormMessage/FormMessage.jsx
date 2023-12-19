@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function FormMessage({ errors, success }) {
+function FormMessage({ errors, status }) {
 	return (
 		<>
-			{success ? (
+			{status === 201 ? (
 				<span className="success">{errors}</span>
 			) : (
 				<ul className="errors">
@@ -19,7 +19,7 @@ function FormMessage({ errors, success }) {
 
 FormMessage.propTypes = {
 	errors: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-	success: PropTypes.bool,
+	status: PropTypes.number,
 };
 
 export default FormMessage;

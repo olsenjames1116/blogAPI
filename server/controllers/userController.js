@@ -65,13 +65,12 @@ exports.userCreatePost =
 			} else {
 				// Data from the form is valid. Save the user.
 				storeUser(user);
-				res.json({
-					success: true,
+				res.status(201).json({
 					errors:
 						'Your account has been created. You will be redirected to log in.',
 				});
 			}
 		} catch (err) {
-			return next(err);
+			return res.status(500).send('Could not post a new user.');
 		}
 	};
