@@ -93,10 +93,7 @@ exports.userLogInPost =
 			// Anything under here is reached if the user is correctly authenticated.
 			const accessToken = jwt.sign(
 				user.toJSON(),
-				process.env.ACCESS_TOKEN_SECRET,
-				{
-					expiresIn: '1h',
-				}
+				process.env.ACCESS_TOKEN_SECRET
 			);
 			res.status(200).json({ accessToken: accessToken });
 		} catch {
