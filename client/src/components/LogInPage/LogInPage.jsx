@@ -3,6 +3,7 @@ import LogInForm from '../LogInForm/LogInForm';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import axios from 'axios';
+import FormMessage from '../FormMessage/FormMessage';
 
 function LogInPage() {
 	const [errors, setErrors] = useState([]);
@@ -54,6 +55,7 @@ function LogInPage() {
 			<div className="content">
 				<h2>Log In</h2>
 				<LogInForm handleChange={handleChange} handleSubmit={handleSubmit} />
+				<FormMessage errors={errors} success={success} />
 			</div>
 		</main>
 	);
