@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 // Validate and sanitize fields to create user.
 exports.validateUserCreate = [
@@ -83,11 +84,21 @@ exports.userLogInPost =
 			if (user === null) {
 				return res.status(401).send('Username does not exist.');
 			}
+
 			const match = await bcrypt.compare(password, user.password);
 			if (!match) {
 				return res.status(401).send('Incorrect password.');
 			}
-			res.status(200).send('Successful log in.');
+
+			// Anything under here is reached if the user is correctly authenticated.
+			const accessToken = jwt.sign(
+				user.toJSON(),
+				process.env.ACCESS_TOKEN_SECRET,
+				{
+					expiresIn: '1h',
+				}
+			);
+			res.status(200).json({ accessToken: accessToken });
 		} catch {
 			res.status(500).send('Could not log user in.');
 		}
