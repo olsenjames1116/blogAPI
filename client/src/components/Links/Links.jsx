@@ -5,6 +5,7 @@ function Links() {
 	return (
 		<ul className="links">
 			<li>
+				<Link to="/log-in">Log In</Link>
 				<Link to="/sign-up">Sign Up</Link>
 			</li>
 		</ul>
