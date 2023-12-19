@@ -4,17 +4,22 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import axios from 'axios';
 import FormMessage from '../FormMessage/FormMessage';
+import { useDispatch } from 'react-redux';
+import { logIn } from '../../redux/state/isLoggedInSlice';
 
 function LogInPage() {
 	const [errors, setErrors] = useState([]);
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 
+	const dispatch = useDispatch();
+
 	useEffect(() => {
 		document.title = 'Log In';
 	}, []);
 
 	const handleSuccess = () => {
+		dispatch(logIn());
 		window.location.href = '/';
 	};
 
