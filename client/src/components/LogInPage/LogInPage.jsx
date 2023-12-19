@@ -6,6 +6,7 @@ import axios from 'axios';
 import FormMessage from '../FormMessage/FormMessage';
 import { useDispatch } from 'react-redux';
 import { logIn } from '../../redux/state/isLoggedInSlice';
+import { useNavigate } from 'react-router-dom';
 
 function LogInPage() {
 	const [errors, setErrors] = useState([]);
@@ -13,6 +14,7 @@ function LogInPage() {
 	const [password, setPassword] = useState('');
 
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		document.title = 'Log In';
@@ -20,7 +22,7 @@ function LogInPage() {
 
 	const handleSuccess = () => {
 		dispatch(logIn());
-		window.location.href = '/';
+		navigate('/');
 	};
 
 	const handleSubmit = async (event) => {
