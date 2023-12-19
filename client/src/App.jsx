@@ -1,7 +1,7 @@
 import React from 'react';
-import Router from './Router';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
+import Router from './Router';
 
 function App() {
 	return (

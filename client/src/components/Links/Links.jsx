@@ -1,10 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function Links() {
 	return (
 		<ul className="links">
 			<li>
-				<a href="/sign-up">Sign Up</a>
+				<Link to="/sign-up">Sign Up</Link>
 			</li>
 		</ul>
 	);
