@@ -28,7 +28,6 @@ function SignUpPage() {
 				const { status } = err.response;
 				if (status === 403) {
 					dispatch(logIn());
-					console.log(isLoggedIn);
 					navigate('/');
 				} else {
 					console.log(err);
@@ -37,7 +36,7 @@ function SignUpPage() {
 		};
 
 		fetchStatus();
-	}, []);
+	});
 
 	const clearForm = () => {
 		const formInputs = document.querySelectorAll('form input');
