@@ -42,10 +42,21 @@ function SignUpPage() {
 			);
 			const { errors } = response.data;
 			const { status } = response;
-			status === 201 ? handleSuccess(errors) : setErrors([...errors]);
+			status === 201 && handleSuccess(errors);
 			setStatus(status);
 		} catch (err) {
-			console.log(err);
+			const { status } = err.response;
+			if (status === 400) {
+				const { errors } = err.response.data;
+				typeof errors === 'string'
+					? setErrors([{ msg: errors }])
+					: setErrors([...errors]);
+			} else {
+				const { data } = err.response;
+				typeof data === 'string'
+					? setErrors([{ msg: data }])
+					: setErrors([...data]);
+			}
 		}
 	};
 

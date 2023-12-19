@@ -10,4 +10,6 @@ router.post(
 	userController.userCreatePost
 );
 
+router.post('/log-in', userController.userLogInPost);
+
 module.exports = router;

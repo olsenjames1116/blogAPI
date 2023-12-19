@@ -56,9 +56,8 @@ exports.userCreatePost =
 
 			if (!errors.isEmpty()) {
 				// There are errors. Render form again with sanitized values/error messages.
-				res.json({
+				res.status(400).json({
 					errors: errors.array(),
-					success: false,
 				});
 
 				return;
@@ -70,7 +69,26 @@ exports.userCreatePost =
 						'Your account has been created. You will be redirected to log in.',
 				});
 			}
-		} catch (err) {
+		} catch {
 			return res.status(500).send('Could not post a new user.');
+		}
+	};
+
+exports.userLogInPost =
+	// Verify the user's log in credentials.
+	async (req, res, next) => {
+		try {
+			const { username, password } = req.body;
+			const user = await User.findOne({ username: username });
+			if (user === null) {
+				return res.status(401).send('Username does not exist.');
+			}
+			const match = await bcrypt.compare(password, user.password);
+			if (!match) {
+				return res.status(401).send('Incorrect password.');
+			}
+			res.status(200).send('Successful log in.');
+		} catch {
+			res.status(500).send('Could not log user in.');
 		}
 	};

@@ -9,7 +9,6 @@ function LogInPage() {
 	const [errors, setErrors] = useState([]);
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
-	const [success, setSuccess] = useState();
 
 	useEffect(() => {
 		document.title = 'Log In';
@@ -29,18 +28,20 @@ function LogInPage() {
 					password: password,
 				}
 			);
-			const { errors, success } = response.data;
-			success ? handleSuccess() : setErrors([...errors]);
-			setSuccess(success);
+			const { status } = response;
+			status === 200 && handleSuccess();
 		} catch (err) {
-			console.log(err);
+			const { data } = err.response;
+			typeof data === 'string'
+				? setErrors([{ msg: data }])
+				: setErrors([...data]);
 		}
 	};
 
 	const handleChange = (event) => {
 		switch (event.target.id) {
 			case 'username':
-				setUsername(event.targer.value);
+				setUsername(event.target.value);
 				break;
 			case 'password':
 				setPassword(event.target.value);
@@ -55,7 +56,7 @@ function LogInPage() {
 			<div className="content">
 				<h2>Log In</h2>
 				<LogInForm handleChange={handleChange} handleSubmit={handleSubmit} />
-				<FormMessage errors={errors} success={success} />
+				<FormMessage errors={errors} />
 			</div>
 		</main>
 	);
