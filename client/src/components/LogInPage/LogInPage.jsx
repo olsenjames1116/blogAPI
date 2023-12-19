@@ -18,7 +18,23 @@ function LogInPage() {
 
 	useEffect(() => {
 		document.title = 'Log In';
-	}, []);
+
+		const fetchStatus = async () => {
+			try {
+				await axios.get('http://localhost:4000/api/user/log-in');
+			} catch (err) {
+				const { status } = err.response;
+				if (status === 403) {
+					dispatch(logIn());
+					navigate('/');
+				} else {
+					console.log(err);
+				}
+			}
+		};
+
+		fetchStatus();
+	});
 
 	const handleSuccess = () => {
 		dispatch(logIn());

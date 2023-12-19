@@ -3,7 +3,7 @@ import axios from 'axios';
 import SignUpForm from '../SignUpForm/SignUpForm';
 import FormMessage from '../FormMessage/FormMessage';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { logIn } from '../../redux/state/isLoggedInSlice';
 
 function SignUpPage() {
@@ -15,7 +15,6 @@ function SignUpPage() {
 
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const isLoggedIn = useSelector((state) => state.isLoggedIn.value);
 
 	useEffect(() => {
 		document.title = 'Sign Up';
@@ -23,7 +22,6 @@ function SignUpPage() {
 		const fetchStatus = async () => {
 			try {
 				await axios.get('http://localhost:4000/api/user/sign-up');
-				console.log(isLoggedIn);
 			} catch (err) {
 				const { status } = err.response;
 				if (status === 403) {
