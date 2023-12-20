@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logOut } from '../../redux/state/isLoggedInSlice';
 import axios from 'axios';
+import { removeAdmin } from '../../redux/state/isAdminSlice';
 // import Cookies from 'universal-cookie';
 
 function Links() {
 	const isLoggedIn = useSelector((state) => state.isLoggedIn.value);
+	const isAdmin = useSelector((state) => state.isAdmin.value);
 
 	const dispatch = useDispatch();
 
@@ -16,6 +18,7 @@ function Links() {
 		// cookies.remove('accessToken');
 
 		dispatch(logOut());
+		dispatch(removeAdmin());
 		try {
 			await axios.get('http://localhost:4000/api/user/log-out', {
 				withCredentials: true,
@@ -37,6 +40,7 @@ function Links() {
 					<Link to="/sign-up">Sign Up</Link>
 				</li>
 			)}
+			{isAdmin && <li>Admin</li>}
 			{isLoggedIn && (
 				<li>
 					<Link to="/" onClick={logOutUser}>

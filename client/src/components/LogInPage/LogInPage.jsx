@@ -7,6 +7,7 @@ import FormMessage from '../FormMessage/FormMessage';
 import { useDispatch } from 'react-redux';
 import { logIn } from '../../redux/state/isLoggedInSlice';
 import { useNavigate } from 'react-router-dom';
+import { makeAdmin } from '../../redux/state/isAdminSlice';
 // import Cookies from 'universal-cookie';
 
 function LogInPage() {
@@ -42,7 +43,8 @@ function LogInPage() {
 		fetchStatus();
 	}, []);
 
-	const handleSuccess = () => {
+	const handleSuccess = (isAdmin) => {
+		if (isAdmin) dispatch(makeAdmin());
 		dispatch(logIn());
 		navigate('/');
 	};
@@ -61,11 +63,12 @@ function LogInPage() {
 			});
 			console.log(response);
 			const { status } = response;
+			const { isAdmin } = response.data;
 			// const { accessToken } = response.data;
 			// cookies.set('accessToken', accessToken, {
 			// 	maxAge: 86400,
 			// });
-			status === 200 && handleSuccess();
+			status === 200 && handleSuccess(isAdmin);
 		} catch (err) {
 			const { data } = err.response;
 			typeof data === 'string'

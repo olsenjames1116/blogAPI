@@ -3,15 +3,31 @@ const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-// Authenticate user token.
-// exports.denyLoggedInUser = (req, res, next) => {
-// 	const authHeader = req.headers['authorization'];
-// 	const token = authHeader && authHeader.split(' ')[1];
-// 	if (token !== 'undefined') {
-// 		return res.status(403).send('User is already logged in.');
-// 	}
-// };
+// Verify a user's token.
+exports.verifyToken = async (req, res, next) => {
+	const { accessToken } = req.cookies || '';
+	if (accessToken) {
+		next();
+	} else {
+		res.sendStatus(403);
+	}
+};
 
+// Verify a user is an admin.
+exports.verifyUserIsAdmin = async (req, res, next) => {
+	const { accessToken } = req.cookies || '';
+	if (accessToken) {
+		jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+			if (err) {
+				console.log(err);
+			} else {
+				res.json({ isAdmin: user.isAdmin });
+			}
+		});
+	}
+};
+
+// Deny a user's access to a page if they are logged in.
 exports.denyAccessWithToken =
 	// Verify the token that has been sent from the user.
 	async (req, res, next) => {
@@ -118,12 +134,15 @@ exports.userLogInPost =
 			);
 			// res.status(200).json({ accessToken: accessToken });
 			res
+				.status(200)
 				.cookie('accessToken', accessToken, {
 					maxAge: 86400,
 					secure: false,
 					httpOnly: true,
 				})
-				.sendStatus(200);
+				.json({
+					isAdmin: user.isAdmin,
+				});
 		} catch {
 			res.status(500).send('Could not log user in.');
 		}
