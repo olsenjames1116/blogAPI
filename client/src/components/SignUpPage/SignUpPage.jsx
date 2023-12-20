@@ -87,15 +87,17 @@ function SignUpPage() {
 	};
 
 	const handleChange = (event) => {
-		switch (event.target.id) {
+		const { id, value } = event.target;
+
+		switch (id) {
 			case 'username':
-				setUsername(event.target.value);
+				setUsername(value);
 				break;
 			case 'password':
-				setPassword(event.target.value);
+				setPassword(value);
 				break;
 			case 'confirmPassword':
-				setConfirmPassword(event.target.value);
+				setConfirmPassword(value);
 				break;
 			default:
 				console.log('None of the form ids matched.');

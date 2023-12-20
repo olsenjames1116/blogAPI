@@ -4,15 +4,46 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logIn } from '../../redux/state/isLoggedInSlice';
 import { makeAdmin } from '../../redux/state/isAdminSlice';
-import { Editor } from '@tinymce/tinymce-react';
+import EditPostForm from '../EditPostForm/EditPostForm';
+import { useState } from 'react';
 
 function EditPostPage() {
+	// const [errors, setErrors] = useState([]);
+	const [image, setImage] = useState(null);
+	const [title, setTitle] = useState('');
+	const [text, setText] = useState('');
+
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
 	const redirectUser = () => {
 		dispatch(logIn());
 		navigate('/');
+	};
+
+	const handleSubmit = (event) => {
+		event.preventDefault();
+		console.log(
+			`${event.target} submitted with image: ${image} title: ${title} text: ${text}`
+		);
+	};
+
+	const handleChange = (event) => {
+		const { id, value } = event.target;
+
+		switch (id) {
+			case 'image':
+				setImage(value);
+				break;
+			case 'title':
+				setTitle(value);
+				break;
+			case 'text':
+				setText(event.target.getContent());
+				break;
+			default:
+				console.log('None of the form ids matched.');
+		}
 	};
 
 	useEffect(() => {
@@ -40,28 +71,12 @@ function EditPostPage() {
 	});
 
 	return (
-		<div>
-			<Editor
-				apiKey={import.meta.env.VITE_TINYMCE_API_KEY}
-				init={{
-					plugins:
-						'ai tinycomments mentions anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed permanentpen footnotes advtemplate advtable advcode editimage tableofcontents mergetags powerpaste tinymcespellchecker autocorrect a11ychecker typography inlinecss',
-					toolbar:
-						'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | align lineheight | tinycomments | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-					tinycomments_mode: 'embedded',
-					tinycomments_author: 'Author name',
-					mergetags_list: [
-						{ value: 'First.Name', title: 'First Name' },
-						{ value: 'Email', title: 'Email' },
-					],
-					ai_request: (request, respondWith) =>
-						respondWith.string(() =>
-							Promise.reject('See docs to implement AI Assistant')
-						),
-				}}
-				initialValue="Welcome to TinyMCE!"
-			/>
-		</div>
+		<main className="editPost">
+			<div className="content">
+				<h2>Edit Post</h2>
+				<EditPostForm handleSubmit={handleSubmit} handleChange={handleChange} />
+			</div>
+		</main>
 	);
 }
 
