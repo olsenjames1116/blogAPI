@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 exports.denyLoggedInUser = (req, res, next) => {
 	const authHeader = req.headers['authorization'];
 	const token = authHeader && authHeader.split(' ')[1];
-	if (token) {
+	if (token !== 'undefined') {
 		return res.status(403).send('User is already logged in.');
 	}
 };

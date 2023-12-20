@@ -61,7 +61,6 @@ function LogInPage() {
 			cookies.set('accessToken', accessToken, {
 				maxAge: 86400,
 			});
-			console.log(cookies.get('accessToken'));
 			status === 200 && handleSuccess();
 		} catch (err) {
 			const { data } = err.response;
