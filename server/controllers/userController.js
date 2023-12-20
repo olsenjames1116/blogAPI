@@ -12,11 +12,10 @@ const jwt = require('jsonwebtoken');
 // 	}
 // };
 
-exports.verifyToken =
+exports.denyAccessWithToken =
 	// Verify the token that has been sent from the user.
 	async (req, res, next) => {
 		const { accessToken } = req.cookies || '';
-		console.log(req.headers);
 		try {
 			if (accessToken) res.status(401).send('User is already logged in.');
 		} catch (err) {
