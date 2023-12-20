@@ -19,7 +19,7 @@ exports.verifyUserIsAdmin = async (req, res, next) => {
 	if (accessToken) {
 		jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
 			if (err) {
-				console.log(err);
+				res.status(500).send('Could not verify user token.');
 			} else {
 				res.json({ isAdmin: user.isAdmin });
 			}

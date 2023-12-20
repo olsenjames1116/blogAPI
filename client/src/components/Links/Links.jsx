@@ -40,7 +40,11 @@ function Links() {
 					<Link to="/sign-up">Sign Up</Link>
 				</li>
 			)}
-			{isAdmin && <li>Admin</li>}
+			{isAdmin && (
+				<li>
+					<Link to="/admin-page">Admin</Link>
+				</li>
+			)}
 			{isLoggedIn && (
 				<li>
 					<Link to="/" onClick={logOutUser}>
