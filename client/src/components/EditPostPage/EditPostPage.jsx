@@ -1,11 +1,11 @@
 import axios from 'axios';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { logIn } from '../../redux/state/isLoggedInSlice';
-import { useNavigate, Link } from 'react-router-dom';
 import { makeAdmin } from '../../redux/state/isAdminSlice';
 
-function AdminPage() {
+function EditPostPage() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
@@ -36,16 +36,7 @@ function AdminPage() {
 		fetchData();
 	});
 
-	return (
-		<main className="admin">
-			<div className="content">
-				<h2>Admin Dashboard</h2>
-				<Link to="/edit-post">
-					<button>+ New Post</button>
-				</Link>
-			</div>
-		</main>
-	);
+	return <div>EditPostPage</div>;
 }
 
-export default AdminPage;
+export default EditPostPage;

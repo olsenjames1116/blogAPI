@@ -16,9 +16,6 @@ function Links() {
 
 	const logOutUser = async () => {
 		// cookies.remove('accessToken');
-
-		dispatch(logOut());
-		dispatch(removeAdmin());
 		try {
 			await axios.get('http://localhost:4000/api/user/log-out', {
 				withCredentials: true,
@@ -26,6 +23,9 @@ function Links() {
 		} catch (err) {
 			console.log(err);
 		}
+
+		dispatch(logOut());
+		dispatch(removeAdmin());
 	};
 
 	return (
