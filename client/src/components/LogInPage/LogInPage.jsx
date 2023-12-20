@@ -7,7 +7,7 @@ import FormMessage from '../FormMessage/FormMessage';
 import { useDispatch } from 'react-redux';
 import { logIn } from '../../redux/state/isLoggedInSlice';
 import { useNavigate } from 'react-router-dom';
-import Cookies from 'universal-cookie';
+// import Cookies from 'universal-cookie';
 
 function LogInPage() {
 	const [errors, setErrors] = useState([]);
@@ -17,7 +17,7 @@ function LogInPage() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	const cookies = new Cookies();
+	// const cookies = new Cookies();
 
 	useEffect(() => {
 		document.title = 'Log In';
@@ -25,7 +25,8 @@ function LogInPage() {
 		const fetchStatus = async () => {
 			try {
 				await axios.get('http://localhost:4000/api/user/log-in', {
-					headers: { Authorization: `Bearer ${cookies.get('accessToken')}` },
+					// headers: { Authorization: `Bearer ${cookies.get('accessToken')}` },
+					withCredentials: true,
 				});
 			} catch (err) {
 				const { status } = err.response;
@@ -49,18 +50,21 @@ function LogInPage() {
 	const handleSubmit = async (event) => {
 		try {
 			event.preventDefault();
-			const response = await axios.post(
-				'http://localhost:4000/api/user/log-in',
-				{
+			const response = await axios({
+				method: 'post',
+				url: 'http://localhost:4000/api/user/log-in',
+				data: {
 					username: username,
 					password: password,
-				}
-			);
-			const { status } = response;
-			const { accessToken } = response.data;
-			cookies.set('accessToken', accessToken, {
-				maxAge: 86400,
+				},
+				withCredentials: true,
 			});
+			console.log(response);
+			const { status } = response;
+			// const { accessToken } = response.data;
+			// cookies.set('accessToken', accessToken, {
+			// 	maxAge: 86400,
+			// });
 			status === 200 && handleSuccess();
 		} catch (err) {
 			const { data } = err.response;

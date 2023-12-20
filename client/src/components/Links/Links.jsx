@@ -2,19 +2,27 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logOut } from '../../redux/state/isLoggedInSlice';
-import Cookies from 'universal-cookie';
+import axios from 'axios';
+// import Cookies from 'universal-cookie';
 
 function Links() {
 	const isLoggedIn = useSelector((state) => state.isLoggedIn.value);
 
 	const dispatch = useDispatch();
 
-	const cookies = new Cookies();
+	// const cookies = new Cookies();
 
-	const logOutUser = () => {
-		cookies.remove('accessToken');
+	const logOutUser = async () => {
+		// cookies.remove('accessToken');
 
 		dispatch(logOut());
+		try {
+			await axios.get('http://localhost:4000/api/user/log-out', {
+				withCredentials: true,
+			});
+		} catch (err) {
+			console.log(err);
+		}
 	};
 
 	return (

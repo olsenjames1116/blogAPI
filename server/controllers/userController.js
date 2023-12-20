@@ -4,13 +4,25 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 // Authenticate user token.
-exports.denyLoggedInUser = (req, res, next) => {
-	const authHeader = req.headers['authorization'];
-	const token = authHeader && authHeader.split(' ')[1];
-	if (token !== 'undefined') {
-		return res.status(403).send('User is already logged in.');
-	}
-};
+// exports.denyLoggedInUser = (req, res, next) => {
+// 	const authHeader = req.headers['authorization'];
+// 	const token = authHeader && authHeader.split(' ')[1];
+// 	if (token !== 'undefined') {
+// 		return res.status(403).send('User is already logged in.');
+// 	}
+// };
+
+exports.verifyToken =
+	// Verify the token that has been sent from the user.
+	async (req, res, next) => {
+		const { accessToken } = req.cookies || '';
+		console.log(req.headers);
+		try {
+			if (accessToken) res.status(401).send('User is already logged in.');
+		} catch (err) {
+			res.status(500).json(err);
+		}
+	};
 
 // Validate and sanitize fields to create user.
 exports.validateUserCreate = [
@@ -105,8 +117,23 @@ exports.userLogInPost =
 				process.env.ACCESS_TOKEN_SECRET,
 				{ expiresIn: '5m' }
 			);
-			res.status(200).json({ accessToken: accessToken });
+			// res.status(200).json({ accessToken: accessToken });
+			res
+				.cookie('accessToken', accessToken, {
+					maxAge: 86400,
+					secure: false,
+					httpOnly: true,
+				})
+				.sendStatus(200);
 		} catch {
 			res.status(500).send('Could not log user in.');
 		}
 	};
+
+exports.clearToken = async (req, res, next) => {
+	try {
+		res.clearCookie('accessToken').sendStatus(202);
+	} catch {
+		res.status(500).send('Could not log user out.');
+	}
+};
