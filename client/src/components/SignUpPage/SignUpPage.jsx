@@ -5,6 +5,7 @@ import FormMessage from '../FormMessage/FormMessage';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logIn } from '../../redux/state/isLoggedInSlice';
+import Cookies from 'universal-cookie';
 
 function SignUpPage() {
 	const [errors, setErrors] = useState([]);
@@ -16,12 +17,16 @@ function SignUpPage() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
+	const cookies = new Cookies();
+
 	useEffect(() => {
 		document.title = 'Sign Up';
 
 		const fetchStatus = async () => {
 			try {
-				await axios.get('http://localhost:4000/api/user/sign-up');
+				await axios.get('http://localhost:4000/api/user/sign-up', {
+					headers: { Authorization: `Bearer ${cookies.get('accessToken')}` },
+				});
 			} catch (err) {
 				const { status } = err.response;
 				if (status === 401 || status === 403) {
