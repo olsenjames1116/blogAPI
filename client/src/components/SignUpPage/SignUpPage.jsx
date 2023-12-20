@@ -24,7 +24,7 @@ function SignUpPage() {
 				await axios.get('http://localhost:4000/api/user/sign-up');
 			} catch (err) {
 				const { status } = err.response;
-				if (status === 403) {
+				if (status === 401 || status === 403) {
 					dispatch(logIn());
 					navigate('/');
 				} else {

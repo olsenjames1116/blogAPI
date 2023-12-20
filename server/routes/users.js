@@ -4,7 +4,7 @@ const router = express.Router();
 const userController = require('../controllers/userController');
 
 // Authenticate the user on the sign up route.
-router.get('/sign-up', userController.authenticateToken);
+router.get('/sign-up', userController.denyLoggedInUser);
 
 // Validate and create a new user on post.
 router.post(
@@ -14,7 +14,7 @@ router.post(
 );
 
 // Authenticate the user on the log in route.
-router.get('/log-in', userController.authenticateToken);
+router.get('/log-in', userController.denyLoggedInUser);
 
 // Validate the user's credentials and log them in on post.
 router.post('/log-in', userController.userLogInPost);

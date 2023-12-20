@@ -4,19 +4,12 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 // Authenticate user token.
-exports.authenticateToken = (req, res, next) => {
+exports.denyLoggedInUser = (req, res, next) => {
 	const authHeader = req.headers['authorization'];
 	const token = authHeader && authHeader.split(' ')[1];
-	if (token) return res.status(401).send('User is not authorized.');
-
-	// Anything under here means the user has a token.
-	jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-		if (err) return res.status(403).send('You do not have access.');
-
-		//Anything under here means the user has a valid token.
-		req.user = user;
-		next();
-	});
+	if (token) {
+		return res.status(403).send('User is already logged in.');
+	}
 };
 
 // Validate and sanitize fields to create user.
@@ -41,7 +34,7 @@ exports.validateUserCreate = [
 		.custom((confirmPassword, { req }) => {
 			return confirmPassword === req.body.password;
 		})
-		.withMessage('Password must match.'),
+		.withMessage('Passwords must match.'),
 ];
 
 // Hash the password before storing in the database.
@@ -110,7 +103,7 @@ exports.userLogInPost =
 			const accessToken = jwt.sign(
 				user.toJSON(),
 				process.env.ACCESS_TOKEN_SECRET,
-				{ expiresIn: 5000 }
+				{ expiresIn: '5m' }
 			);
 			res.status(200).json({ accessToken: accessToken });
 		} catch {
