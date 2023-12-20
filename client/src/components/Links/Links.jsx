@@ -12,9 +12,7 @@ function Links() {
 	const cookies = new Cookies();
 
 	const logOutUser = () => {
-		console.log(cookies.get('accessToken'));
 		cookies.remove('accessToken');
-		console.log(cookies.get('accessToken'));
 
 		dispatch(logOut());
 	};
