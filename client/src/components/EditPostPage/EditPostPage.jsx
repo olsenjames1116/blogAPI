@@ -16,11 +16,10 @@ function EditPostPage() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	const redirectUser = () => {
-		dispatch(logIn());
-		navigate('/');
+	const removeImage = () => {
+		setImage(null);
+		document.querySelector('input#image').value = null;
 	};
-
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		console.log(
@@ -29,11 +28,12 @@ function EditPostPage() {
 	};
 
 	const handleChange = (event) => {
-		const { id, value } = event.target;
+		const { id, value, files } = event.target;
 
 		switch (id) {
 			case 'image':
-				setImage(value);
+				console.log(files[0]);
+				setImage(files[0]);
 				break;
 			case 'title':
 				setTitle(value);
@@ -44,6 +44,11 @@ function EditPostPage() {
 			default:
 				console.log('None of the form ids matched.');
 		}
+	};
+
+	const redirectUser = () => {
+		dispatch(logIn());
+		navigate('/');
 	};
 
 	useEffect(() => {
@@ -74,6 +79,14 @@ function EditPostPage() {
 		<main className="editPost">
 			<div className="content">
 				<h2>Edit Post</h2>
+				{image && (
+					<div>
+						<img width="250px" src={URL.createObjectURL(image)} />
+						<button type="button" onClick={removeImage}>
+							Remove
+						</button>
+					</div>
+				)}
 				<EditPostForm handleSubmit={handleSubmit} handleChange={handleChange} />
 			</div>
 		</main>
