@@ -43,6 +43,20 @@ exports.publishedPostsGet = async (req, res, next) => {
 	}
 };
 
+exports.postDelete = async (req, res, next) => {
+	try {
+		// Get details of post.
+		const { _id } = req.body.post;
+		const post = await Post.findById(_id);
+
+		// Delete object.
+		await Post.findByIdAndDelete(_id);
+		res.status(202).json({ errors: 'The post has been deleted.' });
+	} catch (err) {
+		console.log(err);
+	}
+};
+
 exports.blogUpdatePost = async (req, res, next) => {
 	try {
 		// Extract the validation errors from a request.

@@ -1,11 +1,25 @@
 import React from 'react';
 import { DateTime } from 'luxon';
 import PropTypes from 'prop-types';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-function Posts({ posts, admin }) {
-	const navigate = useNavigate();
+function Posts({ posts, admin, fetchData }) {
+	const deletePost = async (post) => {
+		try {
+			await axios({
+				method: 'delete',
+				url: `http://localhost:4000/api/post/${post._id}`,
+				data: {
+					post: post,
+				},
+				withCredentials: true,
+			});
+			fetchData();
+		} catch (err) {
+			console.log(err);
+		}
+	};
 
 	const publishPost = async (post) => {
 		try {
@@ -17,8 +31,7 @@ function Posts({ posts, admin }) {
 				},
 				withCredentials: true,
 			});
-			post.published = true;
-			navigate('/admin-dashboard');
+			fetchData();
 		} catch (err) {
 			console.log(err);
 		}
@@ -34,8 +47,7 @@ function Posts({ posts, admin }) {
 				},
 				withCredentials: true,
 			});
-			post.published = false;
-			navigate('/admin-dashboard');
+			fetchData();
 		} catch (err) {
 			console.log(err);
 		}
@@ -61,7 +73,9 @@ function Posts({ posts, admin }) {
 						{admin && (
 							<div>
 								<button type="button">Edit</button>
-								<button type="button">Delete</button>
+								<button type="button" onClick={() => deletePost(post)}>
+									Delete
+								</button>
 								{!post.published ? (
 									<button type="button" onClick={() => publishPost(post)}>
 										Publish
@@ -87,6 +101,7 @@ Posts.defaultProps = {
 Posts.propTypes = {
 	posts: PropTypes.array,
 	admin: PropTypes.bool,
+	fetchData: PropTypes.func,
 };
 
 export default Posts;

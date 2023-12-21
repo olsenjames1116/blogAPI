@@ -18,30 +18,27 @@ function AdminPage() {
 		navigate('/');
 	};
 
+	const fetchData = async () => {
+		try {
+			const response = await axios.get('http://localhost:4000/api/all-posts', {
+				withCredentials: true,
+			});
+			const { isAdmin, posts } = response.data;
+			if (!isAdmin) {
+				redirectUser();
+			} else {
+				dispatch(makeAdmin());
+				dispatch(logIn());
+				setPosts(posts);
+			}
+		} catch (err) {
+			console.log(err);
+			navigate('/');
+		}
+	};
+
 	useEffect(() => {
 		document.title = 'Admin Dashboard';
-
-		const fetchData = async () => {
-			try {
-				const response = await axios.get(
-					'http://localhost:4000/api/all-posts',
-					{
-						withCredentials: true,
-					}
-				);
-				const { isAdmin, posts } = response.data;
-				if (!isAdmin) {
-					redirectUser();
-				} else {
-					dispatch(makeAdmin());
-					dispatch(logIn());
-					setPosts(posts);
-				}
-			} catch (err) {
-				console.log(err);
-				navigate('/');
-			}
-		};
 
 		fetchData();
 	}, []);
@@ -53,7 +50,7 @@ function AdminPage() {
 				<Link to="/edit-post">
 					<button>+ New Post</button>
 				</Link>
-				<Posts posts={posts} admin={true} />
+				<Posts posts={posts} admin={true} fetchData={fetchData} />
 			</div>
 		</main>
 	);
