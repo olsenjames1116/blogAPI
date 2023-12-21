@@ -10,6 +10,12 @@ router.get(
 	postController.publishedPostsGet
 );
 
+router.get(
+	'/all-posts',
+	userController.verifyUserIsAdmin,
+	postController.postListGet
+);
+
 router.post(
 	'/post/create',
 	userController.verifyToken,

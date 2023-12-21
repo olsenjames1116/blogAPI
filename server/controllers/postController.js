@@ -2,10 +2,31 @@ const Post = require('../models/post');
 const Image = require('../models/image');
 const { body, validationResult } = require('express-validator');
 
+// Get all posts to display on the admin dashboard.
+exports.postListGet = async (req, res, next) => {
+	try {
+		const allPosts = await Post.find({}, 'title timestamp')
+			.populate('user')
+			.populate('image')
+			.sort({ timestamp: -1 })
+			.exec();
+
+		res.json({
+			posts: allPosts,
+			isAdmin: req.user.isAdmin,
+		});
+	} catch (err) {
+		res.status(500).send(err.message);
+	}
+};
+
 // Get all published posts to display on the home page.
 exports.publishedPostsGet = async (req, res, next) => {
 	try {
-		const publishedPosts = await Post.find({}, 'title timestamp')
+		const publishedPosts = await Post.find(
+			{ published: true },
+			'title timestamp'
+		)
 			.populate('user')
 			.populate('image')
 			.sort({ timestamp: -1 })
