@@ -4,8 +4,12 @@ import { useDispatch } from 'react-redux';
 import { logIn } from '../../redux/state/isLoggedInSlice';
 import { useNavigate, Link } from 'react-router-dom';
 import { makeAdmin } from '../../redux/state/isAdminSlice';
+import Posts from '../Posts/Posts';
+import { useState } from 'react';
 
 function AdminPage() {
+	const [posts, setPosts] = useState([]);
+
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
@@ -19,15 +23,19 @@ function AdminPage() {
 
 		const fetchData = async () => {
 			try {
-				const response = await axios.get('http://localhost:4000/api/posts', {
-					withCredentials: true,
-				});
-				const { isAdmin } = response.data;
+				const response = await axios.get(
+					'http://localhost:4000/api/all-posts',
+					{
+						withCredentials: true,
+					}
+				);
+				const { isAdmin, posts } = response.data;
 				if (!isAdmin) {
 					redirectUser();
 				} else {
 					dispatch(makeAdmin());
 					dispatch(logIn());
+					setPosts(posts);
 				}
 			} catch (err) {
 				console.log(err);
@@ -36,7 +44,7 @@ function AdminPage() {
 		};
 
 		fetchData();
-	});
+	}, []);
 
 	return (
 		<main className="admin">
@@ -45,6 +53,7 @@ function AdminPage() {
 				<Link to="/edit-post">
 					<button>+ New Post</button>
 				</Link>
+				<Posts posts={posts} admin={true} />
 			</div>
 		</main>
 	);
