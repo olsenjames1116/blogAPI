@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { makeAdmin } from '../../redux/state/isAdminSlice';
+import Posts from '../Posts/Posts';
 
 function HomePage() {
 	const [posts, setPosts] = useState([]);
@@ -31,11 +32,7 @@ function HomePage() {
 	return (
 		<main className="home">
 			<div className="content">
-				<ul className="posts">
-					{posts.map((post) => {
-						return <li key={post._id}>{post.title}</li>;
-					})}
-				</ul>
+				<Posts posts={posts} />
 			</div>
 		</main>
 	);

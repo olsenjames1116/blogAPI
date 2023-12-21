@@ -5,11 +5,9 @@ const { body, validationResult } = require('express-validator');
 // Get all published posts to display on the home page.
 exports.publishedPostsGet = async (req, res, next) => {
 	try {
-		const publishedPosts = await Post.find(
-			{ published: true },
-			'title timestamp'
-		)
-			.populate('user', 'image')
+		const publishedPosts = await Post.find({}, 'title timestamp')
+			.populate('user')
+			.populate('image')
 			.sort({ timestamp: -1 })
 			.exec();
 
