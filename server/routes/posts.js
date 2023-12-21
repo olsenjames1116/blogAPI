@@ -23,10 +23,12 @@ router.post(
 	postController.blogCreatePost
 );
 
-router.get(
+router.get('/post/:id', postController.postDetailGet);
+
+router.put(
 	'/post/:id',
 	userController.verifyToken,
-	postController.postDetailGet
+	postController.blogUpdatePost
 );
 
 module.exports = router;

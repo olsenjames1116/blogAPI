@@ -98,11 +98,9 @@ exports.userCreatePost =
 
 			if (!errors.isEmpty()) {
 				// There are errors. Render form again with sanitized values/error messages.
-				res.status(400).json({
+				return res.status(400).json({
 					errors: errors.array(),
 				});
-
-				return;
 			} else {
 				// Data from the form is valid. Save the user.
 				storeUser(user);

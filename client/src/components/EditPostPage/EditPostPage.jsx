@@ -20,6 +20,7 @@ function EditPostPage() {
 		setImage(null);
 		document.querySelector('input#image').value = null;
 	};
+
 	const handleSubmit = async (event) => {
 		try {
 			event.preventDefault();
@@ -58,8 +59,6 @@ function EditPostPage() {
 
 		switch (id) {
 			case 'image':
-				console.log(files[0]);
-				console.log(await convertToBase64(files[0]));
 				setImageBase64(await convertToBase64(files[0]));
 				setImage(files[0]);
 				break;

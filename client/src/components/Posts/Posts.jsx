@@ -1,13 +1,44 @@
 import React from 'react';
 import { DateTime } from 'luxon';
 import PropTypes from 'prop-types';
-import { menuImage } from '../../assets/images';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function Posts({ posts, admin }) {
-	const handleClick = ({ target }) => {
-		const { id } = target.parentElement.parentElement;
-		console.log(id);
+	const navigate = useNavigate();
+
+	const publishPost = async (post) => {
+		try {
+			await axios({
+				method: 'put',
+				url: `http://localhost:4000/api/post/${post._id}`,
+				data: {
+					post: { ...post, published: true },
+				},
+				withCredentials: true,
+			});
+			post.published = true;
+			navigate('/admin-dashboard');
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	const unpublishPost = async (post) => {
+		try {
+			await axios({
+				method: 'put',
+				url: `http://localhost:4000/api/post/${post._id}`,
+				data: {
+					post: { ...post, published: false },
+				},
+				withCredentials: true,
+			});
+			post.published = false;
+			navigate('/admin-dashboard');
+		} catch (err) {
+			console.log(err);
+		}
 	};
 
 	return (
@@ -15,23 +46,33 @@ function Posts({ posts, admin }) {
 			{posts.map((post) => {
 				return (
 					<li id={post._id} key={post._id}>
+						<Link to={`/post/${post._id}`}>
+							<div>
+								<img src={post.image.file} />
+							</div>
+							<h3>{post.title}</h3>
+							<span>{post.user.username}</span>
+							<span>
+								{DateTime.fromISO(post.timestamp).toLocaleString(
+									DateTime.DATE_MED
+								)}
+							</span>
+						</Link>
 						{admin && (
 							<div>
-								<Link to={`/post/${post._id}`}>
-									<img src={menuImage} onClick={handleClick} />
-								</Link>
+								<button type="button">Edit</button>
+								<button type="button">Delete</button>
+								{!post.published ? (
+									<button type="button" onClick={() => publishPost(post)}>
+										Publish
+									</button>
+								) : (
+									<button type="button" onClick={() => unpublishPost(post)}>
+										Unpublish
+									</button>
+								)}
 							</div>
 						)}
-						<div>
-							<img src={post.image.file} />
-						</div>
-						<h3>{post.title}</h3>
-						<span>{post.user.username}</span>
-						<span>
-							{DateTime.fromISO(post.timestamp).toLocaleString(
-								DateTime.DATE_MED
-							)}
-						</span>
 					</li>
 				);
 			})}

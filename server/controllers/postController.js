@@ -5,7 +5,7 @@ const { body, validationResult } = require('express-validator');
 // Get all posts to display on the admin dashboard.
 exports.postListGet = async (req, res, next) => {
 	try {
-		const allPosts = await Post.find({}, 'title timestamp')
+		const allPosts = await Post.find({})
 			.populate('user')
 			.populate('image')
 			.sort({ timestamp: -1 })
@@ -40,6 +40,41 @@ exports.publishedPostsGet = async (req, res, next) => {
 		});
 	} catch (err) {
 		res.status(500).send(err.message);
+	}
+};
+
+exports.blogUpdatePost = async (req, res, next) => {
+	try {
+		// Extract the validation errors from a request.
+		const errors = validationResult(req);
+
+		// Create a post object with escaped/trimmed data and old id.
+		const { post } = req.body;
+		const updatedPost = new Post({
+			image: post.item,
+			user: post.user,
+			title: post.title,
+			text: post.text,
+			timestamp: post.timestamp,
+			comments: post.comments,
+			published: post.published,
+			_id: req.params.id,
+		});
+
+		if (!errors.isEmpty()) {
+			// There are errors.
+			return res.status(400).json({
+				errors: errors.array(),
+			});
+		} else {
+			// Data from the form is valid. Save the post.
+			await Post.findByIdAndUpdate(req.params.id, updatedPost, {});
+			res.status(202).json({
+				errors: 'The post has been updated.',
+			});
+		}
+	} catch (err) {
+		res.status(500).send('Could not update post.');
 	}
 };
 
