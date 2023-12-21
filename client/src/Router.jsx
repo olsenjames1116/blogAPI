@@ -12,7 +12,7 @@ function Router() {
 			<Route path="/" element={<HomePage />} />
 			<Route path="/sign-up" element={<SignUpPage />} />
 			<Route path="/log-in" element={<LogInPage />} />
-			<Route path="/admin-page" element={<AdminPage />} />
+			<Route path="/admin-dashboard" element={<AdminPage />} />
 			<Route path="/edit-post" element={<EditPostPage />} />
 		</Routes>
 	);

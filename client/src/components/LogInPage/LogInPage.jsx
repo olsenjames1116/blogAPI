@@ -61,7 +61,6 @@ function LogInPage() {
 				},
 				withCredentials: true,
 			});
-			console.log(response);
 			const { status } = response;
 			const { isAdmin } = response.data;
 			// const { accessToken } = response.data;

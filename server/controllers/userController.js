@@ -6,11 +6,15 @@ const jwt = require('jsonwebtoken');
 // Verify a user's token.
 exports.verifyToken = async (req, res, next) => {
 	const { accessToken } = req.cookies || '';
-	if (accessToken) {
+	if (!accessToken)
+		return res.status(401).send('Token has not been generated.');
+
+	jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+		if (err) return res.status(403).send('Token no longer valid.');
+
+		req.user = user;
 		next();
-	} else {
-		res.sendStatus(403);
-	}
+	});
 };
 
 // Verify a user is an admin.
@@ -148,6 +152,7 @@ exports.userLogInPost =
 		}
 	};
 
+// Clear the stored access token on log out.
 exports.clearToken = async (req, res, next) => {
 	try {
 		res.clearCookie('accessToken').sendStatus(202);

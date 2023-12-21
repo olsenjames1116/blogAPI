@@ -42,7 +42,7 @@ function Links() {
 			)}
 			{isAdmin && (
 				<li>
-					<Link to="/admin-page">Admin</Link>
+					<Link to="/admin-dashboard">Admin</Link>
 				</li>
 			)}
 			{isLoggedIn && (

@@ -1,15 +1,15 @@
 import axios from 'axios';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logIn } from '../../redux/state/isLoggedInSlice';
 import { makeAdmin } from '../../redux/state/isAdminSlice';
 import EditPostForm from '../EditPostForm/EditPostForm';
-import { useState } from 'react';
 
 function EditPostPage() {
 	// const [errors, setErrors] = useState([]);
 	const [image, setImage] = useState(null);
+	const [imageBase64, setImageBase64] = useState(null);
 	const [title, setTitle] = useState('');
 	const [text, setText] = useState('');
 
@@ -20,19 +20,47 @@ function EditPostPage() {
 		setImage(null);
 		document.querySelector('input#image').value = null;
 	};
-	const handleSubmit = (event) => {
-		event.preventDefault();
-		console.log(
-			`${event.target} submitted with image: ${image} title: ${title} text: ${text}`
-		);
+	const handleSubmit = async (event) => {
+		try {
+			event.preventDefault();
+			const response = await axios({
+				method: 'post',
+				url: 'http://localhost:4000/api/post/create',
+				withCredentials: true,
+				data: {
+					image: imageBase64,
+					title: title,
+					text: text,
+				},
+			});
+			const { status } = response;
+			console.log(status);
+		} catch (err) {
+			console.log(err);
+		}
 	};
 
-	const handleChange = (event) => {
+	const convertToBase64 = async (image) => {
+		return new Promise((resolve, reject) => {
+			const fileReader = new FileReader();
+			fileReader.readAsDataURL(image);
+			fileReader.onload = () => {
+				resolve(fileReader.result);
+			};
+			fileReader.onerror = (error) => {
+				reject(error);
+			};
+		});
+	};
+
+	const handleChange = async (event) => {
 		const { id, value, files } = event.target;
 
 		switch (id) {
 			case 'image':
 				console.log(files[0]);
+				console.log(await convertToBase64(files[0]));
+				setImageBase64(await convertToBase64(files[0]));
 				setImage(files[0]);
 				break;
 			case 'title':
