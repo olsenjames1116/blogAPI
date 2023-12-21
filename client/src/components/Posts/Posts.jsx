@@ -2,16 +2,24 @@ import React from 'react';
 import { DateTime } from 'luxon';
 import PropTypes from 'prop-types';
 import { menuImage } from '../../assets/images';
+import { Link } from 'react-router-dom';
 
 function Posts({ posts, admin }) {
+	const handleClick = ({ target }) => {
+		const { id } = target.parentElement.parentElement;
+		console.log(id);
+	};
+
 	return (
 		<ul className="posts">
 			{posts.map((post) => {
 				return (
-					<li key={post._id}>
+					<li id={post._id} key={post._id}>
 						{admin && (
 							<div>
-								<img src={menuImage} />
+								<Link to={`/post/${post._id}`}>
+									<img src={menuImage} onClick={handleClick} />
+								</Link>
 							</div>
 						)}
 						<div>

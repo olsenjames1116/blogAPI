@@ -23,4 +23,10 @@ router.post(
 	postController.blogCreatePost
 );
 
+router.get(
+	'/post/:id',
+	userController.verifyToken,
+	postController.postDetailGet
+);
+
 module.exports = router;

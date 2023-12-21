@@ -5,6 +5,7 @@ import SignUpPage from './components/SignUpPage/SignUpPage';
 import LogInPage from './components/LogInPage/LogInPage';
 import AdminPage from './components/AdminPage/AdminPage';
 import EditPostPage from './components/EditPostPage/EditPostPage';
+import PostDetailPage from './components/PostDetailPage/PostDetailPage';
 
 function Router() {
 	return (
@@ -14,6 +15,7 @@ function Router() {
 			<Route path="/log-in" element={<LogInPage />} />
 			<Route path="/admin-dashboard" element={<AdminPage />} />
 			<Route path="/edit-post" element={<EditPostPage />} />
+			<Route path="/post/:id" element={<PostDetailPage />} />
 		</Routes>
 	);
 }

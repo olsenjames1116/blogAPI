@@ -43,6 +43,21 @@ exports.publishedPostsGet = async (req, res, next) => {
 	}
 };
 
+exports.postDetailGet = async (req, res, next) => {
+	try {
+		const post = await Post.findById(req.params.id)
+			.populate('user')
+			.populate('image')
+			.exec();
+
+		res.json({
+			post: post,
+		});
+	} catch (err) {
+		console.log(err);
+	}
+};
+
 // Validate and sanitize data from the request.
 exports.validatePostCreate = [
 	body('image').custom((image) => {
