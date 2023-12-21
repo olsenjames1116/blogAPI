@@ -25,10 +25,11 @@ exports.verifyUserIsAdmin = async (req, res, next) => {
 			if (err) {
 				res.status(500).send('Could not verify user token.');
 			} else {
-				res.json({ isAdmin: user.isAdmin });
+				req.user = user;
 			}
 		});
 	}
+	next();
 };
 
 // Deny a user's access to a page if they are logged in.
