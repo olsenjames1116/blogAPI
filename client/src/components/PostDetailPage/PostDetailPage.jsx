@@ -4,6 +4,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { decode } from 'html-entities';
 import parse from 'html-react-parser';
 import { useSelector } from 'react-redux';
+import { DateTime } from 'luxon';
+import { userImage } from '../../assets/images';
 
 function PostDetailPage() {
 	const [post, setPost] = useState();
@@ -87,7 +89,20 @@ function PostDetailPage() {
 							)}
 							<ul>
 								{post.comments.map((comment) => {
-									return <li key={comment._id}>{comment.text}</li>;
+									return (
+										<li key={comment._id}>
+											<div>
+												<img src={userImage} />
+											</div>
+											<h4>{comment.user.username}</h4>
+											<span>
+												{DateTime.fromISO(comment.timestamp).toLocaleString(
+													DateTime.DATE_MED
+												)}
+											</span>
+											<p>{comment.text}</p>
+										</li>
+									);
 								})}
 							</ul>
 						</div>
