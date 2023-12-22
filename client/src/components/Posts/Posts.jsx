@@ -3,6 +3,7 @@ import { DateTime } from 'luxon';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { commentImage } from '../../assets/images';
 
 function Posts({ posts, admin, fetchData }) {
 	const deletePost = async (post) => {
@@ -69,6 +70,10 @@ function Posts({ posts, admin, fetchData }) {
 									DateTime.DATE_MED
 								)}
 							</span>
+							<div>
+								<img src={commentImage} />
+								<span>{post.comments.length}</span>
+							</div>
 						</Link>
 						{admin && (
 							<div>

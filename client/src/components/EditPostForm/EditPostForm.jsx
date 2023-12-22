@@ -19,7 +19,7 @@ function EditPostForm({ post, handleSubmit, handleChange }) {
 					name="title"
 					type="text"
 					onChange={handleChange}
-					value={post ? post.title : ''}
+					value={post && post.title}
 				/>
 			</div>
 			<div>

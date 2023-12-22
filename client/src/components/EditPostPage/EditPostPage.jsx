@@ -124,10 +124,7 @@ function EditPostPage() {
 				<h2>Edit Post</h2>
 				{image && (
 					<div>
-						<img
-							width="250px"
-							src={post.image.file || URL.createObjectURL(image)}
-						/>
+						<img width="250px" src={URL.createObjectURL(image)} />
 						<button type="button" onClick={removeImage}>
 							Remove
 						</button>
