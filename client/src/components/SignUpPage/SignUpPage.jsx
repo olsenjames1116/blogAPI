@@ -2,10 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import SignUpForm from '../SignUpForm/SignUpForm';
 import FormMessage from '../FormMessage/FormMessage';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { logIn } from '../../redux/state/isLoggedInSlice';
-// import Cookies from 'universal-cookie';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 function SignUpPage() {
 	const [errors, setErrors] = useState([]);
@@ -14,32 +12,12 @@ function SignUpPage() {
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [status, setStatus] = useState();
 
-	const navigate = useNavigate();
-	const dispatch = useDispatch();
+	const isLoggedIn = useSelector((state) => state.isLoggedIn.value);
 
-	// const cookies = new Cookies();
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		document.title = 'Sign Up';
-
-		const fetchStatus = async () => {
-			try {
-				await axios.get('http://localhost:4000/api/user/sign-up', {
-					// headers: { Authorization: `Bearer ${cookies.get('accessToken')}` },
-					withCredentials: true,
-				});
-			} catch (err) {
-				const { status } = err.response;
-				if (status === 401 || status === 403) {
-					dispatch(logIn());
-					navigate('/');
-				} else {
-					console.log(err);
-				}
-			}
-		};
-
-		fetchStatus();
 	});
 
 	const clearForm = () => {
@@ -68,7 +46,7 @@ function SignUpPage() {
 			);
 			const { errors } = response.data;
 			const { status } = response;
-			status === 201 && handleSuccess(errors);
+			handleSuccess(errors);
 			setStatus(status);
 		} catch (err) {
 			const { status } = err.response;
@@ -106,6 +84,7 @@ function SignUpPage() {
 
 	return (
 		<main className="signUp">
+			{isLoggedIn && <Navigate to="/" replace />}
 			<div className="content">
 				<h2>Sign Up</h2>
 				<SignUpForm handleChange={handleChange} handleSubmit={handleSubmit} />

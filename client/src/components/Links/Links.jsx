@@ -20,8 +20,8 @@ function Links() {
 			console.log(err);
 		}
 
-		localStorage.setItem('isLoggedIn', false);
-		localStorage.setItem('isAdmin', false);
+		localStorage.removeItem('isLoggedIn');
+		localStorage.removeItem('isAdmin');
 		dispatch(logOut());
 		dispatch(removeAdmin());
 	};
