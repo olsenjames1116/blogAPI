@@ -130,7 +130,7 @@ exports.userLogInPost =
 			process.env.ACCESS_TOKEN_SECRET,
 			{ expiresIn: '5m' }
 		);
-		// res.status(200).json({ accessToken: accessToken });
+
 		res
 			.status(200)
 			.cookie('accessToken', accessToken, {
