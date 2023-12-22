@@ -1,5 +1,6 @@
 const { validationResult } = require('express-validator');
 const Comment = require('../models/comment');
+const Post = require('../models/post');
 
 exports.commentCreatePost = async (req, res, next) => {
 	try {
@@ -20,7 +21,10 @@ exports.commentCreatePost = async (req, res, next) => {
 			});
 		}
 
-		await comment.save();
+		const newComment = await comment.save();
+		const post = await Post.findById(req.params.id);
+		post.comments.push(newComment);
+		await post.save();
 	} catch (err) {
 		console.log(err);
 	}

@@ -41,7 +41,7 @@ function PostDetailPage() {
 		try {
 			const response = await axios({
 				method: 'post',
-				url: 'http://localhost:4000/api/comment/create',
+				url: `http://localhost:4000/api/comment/create/${id}`,
 				data: {
 					text: text,
 				},
@@ -85,7 +85,7 @@ function PostDetailPage() {
 							)}
 							<ul>
 								{post.comments.map((comment) => {
-									<li>{comment.text}</li>;
+									return <li key={comment._id}>{comment.text}</li>;
 								})}
 							</ul>
 						</div>

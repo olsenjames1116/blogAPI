@@ -5,7 +5,7 @@ const userController = require('../controllers/userController');
 const commentController = require('../controllers/commentController');
 
 router.post(
-	'/create',
+	'/create/:id',
 	userController.verifyToken,
 	commentController.commentCreatePost
 );

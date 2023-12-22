@@ -97,6 +97,7 @@ exports.postDetailGet = async (req, res, next) => {
 		const post = await Post.findById(req.params.id)
 			.populate('user')
 			.populate('image')
+			.populate('comments')
 			.exec();
 
 		res.json({
