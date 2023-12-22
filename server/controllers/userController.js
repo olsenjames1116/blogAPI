@@ -32,18 +32,6 @@ exports.verifyUserIsAdmin = (req, res, next) => {
 	next();
 };
 
-// Deny a user's access to a page if they are logged in.
-exports.denyAccessWithToken =
-	// Verify the token that has been sent from the user.
-	(req, res, next) => {
-		const { accessToken } = req.cookies || '';
-		if (accessToken) {
-			res.sendStatus(401);
-		} else {
-			res.sendStatus(500);
-		}
-	};
-
 // Validate and sanitize fields to create user.
 exports.validateUserCreate = [
 	body('username')
