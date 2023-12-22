@@ -120,7 +120,7 @@ exports.blogCreatePost = asyncHandler(async (req, res, next) => {
 	if (!errors.isEmpty()) {
 		// There are errors. Render form again with sanitized values/error messages.
 		return res.status(400).json({
-			errors: errors.array(),
+			message: errors.array(),
 		});
 	}
 	// Data from the form is valid. Save the image and post.

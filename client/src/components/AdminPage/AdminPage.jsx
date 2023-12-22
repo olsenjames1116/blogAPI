@@ -1,11 +1,14 @@
 import axios from 'axios';
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import Posts from '../Posts/Posts';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 function AdminPage() {
 	const [posts, setPosts] = useState([]);
+
+	const isAdmin = useSelector((state) => state.isAdmin.value);
 
 	const fetchData = async () => {
 		try {
@@ -30,12 +33,13 @@ function AdminPage() {
 
 	return (
 		<main className="admin">
+			{!isAdmin && <Navigate to="/" replace />}
 			<div className="content">
 				<h2>Admin Dashboard</h2>
 				<Link to="/edit-post">
 					<button>+ New Post</button>
 				</Link>
-				<Posts posts={posts} fetchData={fetchData} />
+				<Posts posts={posts} fetchData={fetchData} adminPage={true} />
 			</div>
 		</main>
 	);

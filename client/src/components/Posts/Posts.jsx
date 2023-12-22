@@ -5,7 +5,7 @@ import AdminControls from '../AdminControls/AdminControls';
 import PostInfo from '../PostInfo/PostInfo';
 import { useSelector } from 'react-redux';
 
-function Posts({ posts, fetchData }) {
+function Posts({ posts, fetchData, adminPage }) {
 	const isAdmin = useSelector((state) => state.isAdmin.value);
 
 	const deletePost = async (post) => {
@@ -62,7 +62,7 @@ function Posts({ posts, fetchData }) {
 				return (
 					<li key={post._id}>
 						<PostInfo post={post} />
-						{isAdmin && (
+						{isAdmin && adminPage && (
 							<AdminControls
 								post={post}
 								deletePost={deletePost}
@@ -77,10 +77,15 @@ function Posts({ posts, fetchData }) {
 	);
 }
 
+Posts.defaultProps = {
+	adminPage: false,
+};
+
 Posts.propTypes = {
 	posts: PropTypes.array,
 	admin: PropTypes.bool,
 	fetchData: PropTypes.func,
+	adminPage: PropTypes.boolean,
 };
 
 export default Posts;

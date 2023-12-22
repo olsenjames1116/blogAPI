@@ -1,20 +1,21 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
-import { logIn } from '../../redux/state/isLoggedInSlice';
-import { makeAdmin } from '../../redux/state/isAdminSlice';
+import { useSelector } from 'react-redux';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import EditPostForm from '../EditPostForm/EditPostForm';
+import DynamicImageDisplay from '../DynamicImageDisplay/DynamicImageDisplay';
+import FormMessage from '../FormMessage/FormMessage';
 
 function EditPostPage() {
-	// const [errors, setErrors] = useState([]);
+	const [message, setMessage] = useState([]);
 	const [image, setImage] = useState(null);
 	const [imageBase64, setImageBase64] = useState(null);
 	const [title, setTitle] = useState('');
 	const [text, setText] = useState('');
 	const [post, setPost] = useState();
 
-	const dispatch = useDispatch();
+	const isAdmin = useSelector((state) => state.isAdmin.value);
+
 	const navigate = useNavigate();
 
 	const { id } = useParams();
@@ -31,6 +32,12 @@ function EditPostPage() {
 		}
 	};
 
+	useEffect(() => {
+		document.title = 'Edit Post';
+
+		id && loadData();
+	}, []);
+
 	const removeImage = () => {
 		setImage(null);
 		document.querySelector('input#image').value = null;
@@ -39,7 +46,7 @@ function EditPostPage() {
 	const handleSubmit = async (event) => {
 		try {
 			event.preventDefault();
-			const response = await axios({
+			await axios({
 				method: 'post',
 				url: 'http://localhost:4000/api/post/create',
 				withCredentials: true,
@@ -49,10 +56,15 @@ function EditPostPage() {
 					text: text,
 				},
 			});
-			const { status } = response;
-			console.log(status);
+			navigate('/admin-dashboard');
 		} catch (err) {
-			console.log(err);
+			const { status } = err.response;
+			if (status === 400) {
+				const { message } = err.response.data;
+				setMessage(message);
+			} else {
+				console.log(err);
+			}
 		}
 	};
 
@@ -88,50 +100,14 @@ function EditPostPage() {
 		}
 	};
 
-	const redirectUser = () => {
-		dispatch(logIn());
-		navigate('/');
-	};
-
-	useEffect(() => {
-		document.title = 'Edit Post';
-
-		const fetchData = async () => {
-			try {
-				const response = await axios.get(
-					'http://localhost:4000/api/post/posts',
-					{
-						withCredentials: true,
-					}
-				);
-				const { isAdmin } = response.data;
-				if (!isAdmin) {
-					redirectUser();
-				} else {
-					dispatch(makeAdmin());
-					dispatch(logIn());
-				}
-			} catch (err) {
-				console.log(err);
-				navigate('/');
-			}
-		};
-
-		fetchData();
-		id && loadData();
-	}, []);
-
 	return (
 		<main className="editPost">
+			{!isAdmin && <Navigate to="/" replace />}
 			<div className="content">
 				<h2>Edit Post</h2>
+				<FormMessage message={message} />
 				{image && (
-					<div>
-						<img width="250px" src={URL.createObjectURL(image)} />
-						<button type="button" onClick={removeImage}>
-							Remove
-						</button>
-					</div>
+					<DynamicImageDisplay image={image} removeImage={removeImage} />
 				)}
 				<EditPostForm
 					post={post}
