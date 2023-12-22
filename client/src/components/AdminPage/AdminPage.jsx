@@ -18,7 +18,7 @@ function AdminPage() {
 			const { posts } = response.data;
 			setPosts(posts);
 		} catch (err) {
-			console.log(err.response.data);
+			console.log(err);
 		}
 	};
 

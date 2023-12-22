@@ -60,7 +60,7 @@ function Posts({ posts, fetchData }) {
 		<ul className="posts">
 			{posts.map((post) => {
 				return (
-					<li id={post._id} key={post._id}>
+					<li key={post._id}>
 						<PostInfo post={post} />
 						{isAdmin && (
 							<AdminControls

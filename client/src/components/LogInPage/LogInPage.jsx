@@ -10,7 +10,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { makeAdmin } from '../../redux/state/isAdminSlice';
 
 function LogInPage() {
-	const [errors, setErrors] = useState([]);
+	const [message, setMessage] = useState([]);
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 
@@ -48,10 +48,13 @@ function LogInPage() {
 			const { isAdmin } = response.data;
 			handleSuccess(isAdmin);
 		} catch (err) {
-			const { data } = err.response;
-			typeof data === 'string'
-				? setErrors([{ msg: data }])
-				: setErrors([...data]);
+			const { status } = err.response;
+			if (status === 401) {
+				const { data } = err.response;
+				setMessage([{ msg: data }]);
+			} else {
+				console.log(err);
+			}
 		}
 	};
 
@@ -74,7 +77,7 @@ function LogInPage() {
 			<div className="content">
 				<h2>Log In</h2>
 				<LogInForm handleChange={handleChange} handleSubmit={handleSubmit} />
-				<FormMessage errors={errors} />
+				<FormMessage message={message} />
 			</div>
 		</main>
 	);

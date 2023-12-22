@@ -98,13 +98,13 @@ exports.userCreatePost =
 		if (!errors.isEmpty()) {
 			// There are errors. Render form again with sanitized values/error messages.
 			return res.status(400).json({
-				errors: errors.array(),
+				message: errors.array(),
 			});
 		} else {
 			// Data from the form is valid. Save the user.
 			storeUser(user);
 			res.status(201).json({
-				errors:
+				message:
 					'Your account has been created. You will be redirected to log in.',
 			});
 		}

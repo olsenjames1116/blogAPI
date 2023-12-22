@@ -1,24 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function FormMessage({ errors, status }) {
+function FormMessage({ message, status }) {
 	return (
-		<>
+		<div className="formMessage">
 			{status === 201 ? (
-				<span className="success">{errors}</span>
+				<span className="success">{message}</span>
 			) : (
 				<ul className="errors">
-					{errors.map((error, index) => (
-						<li key={index}>{error.msg}</li>
+					{message.map((message, index) => (
+						<li key={index}>{message.msg}</li>
 					))}
 				</ul>
 			)}
-		</>
+		</div>
 	);
 }
 
 FormMessage.propTypes = {
-	errors: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+	message: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
 	status: PropTypes.number,
 };
 

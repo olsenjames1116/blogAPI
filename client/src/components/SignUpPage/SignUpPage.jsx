@@ -6,7 +6,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 function SignUpPage() {
-	const [errors, setErrors] = useState([]);
+	const [message, setMessage] = useState([]);
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
@@ -27,9 +27,9 @@ function SignUpPage() {
 		});
 	};
 
-	const handleSuccess = (errors) => {
+	const handleSuccess = (message) => {
 		clearForm();
-		setErrors(errors);
+		setMessage(message);
 		setTimeout(() => navigate('/log-in'), 3000);
 	};
 
@@ -44,22 +44,17 @@ function SignUpPage() {
 					confirmPassword: confirmPassword,
 				}
 			);
-			const { errors } = response.data;
+			const { message } = response.data;
 			const { status } = response;
-			handleSuccess(errors);
+			handleSuccess(message);
 			setStatus(status);
 		} catch (err) {
 			const { status } = err.response;
 			if (status === 400) {
-				const { errors } = err.response.data;
-				typeof errors === 'string'
-					? setErrors([{ msg: errors }])
-					: setErrors([...errors]);
+				const { message } = err.response.data;
+				setMessage(message);
 			} else {
-				const { data } = err.response;
-				typeof data === 'string'
-					? setErrors([{ msg: data }])
-					: setErrors([...data]);
+				console.log(err);
 			}
 		}
 	};
@@ -88,7 +83,7 @@ function SignUpPage() {
 			<div className="content">
 				<h2>Sign Up</h2>
 				<SignUpForm handleChange={handleChange} handleSubmit={handleSubmit} />
-				<FormMessage errors={errors} status={status} />
+				<FormMessage message={message} status={status} />
 			</div>
 		</main>
 	);
