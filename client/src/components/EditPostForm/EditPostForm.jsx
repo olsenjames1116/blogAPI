@@ -1,17 +1,26 @@
 import React from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 import PropTypes from 'prop-types';
+import { decode } from 'html-entities';
 
-function EditPostForm({ handleSubmit, handleChange }) {
+function EditPostForm({ post, handleSubmit, handleChange }) {
 	return (
 		<form method="POST" action="/api/post/edit" onSubmit={handleSubmit}>
-			<div>
-				<label htmlFor="image">Image:</label>
-				<input id="image" name="image" type="file" onChange={handleChange} />
-			</div>
+			{!post && (
+				<div>
+					<label htmlFor="image">Image:</label>
+					<input id="image" name="image" type="file" onChange={handleChange} />
+				</div>
+			)}
 			<div>
 				<label htmlFor="title">Title:</label>
-				<input id="title" name="title" type="text" onChange={handleChange} />
+				<input
+					id="title"
+					name="title"
+					type="text"
+					onChange={handleChange}
+					value={post ? post.title : ''}
+				/>
 			</div>
 			<div>
 				<Editor
@@ -35,7 +44,7 @@ function EditPostForm({ handleSubmit, handleChange }) {
 								Promise.reject('See docs to implement AI Assistant')
 							),
 					}}
-					initialValue="Welcome to TinyMCE!"
+					initialValue={post ? decode(post.text) : 'Welcome to TinyMCE!'}
 				/>
 			</div>
 			<button type="submit">Submit</button>
@@ -46,6 +55,7 @@ function EditPostForm({ handleSubmit, handleChange }) {
 EditPostForm.propTypes = {
 	handleSubmit: PropTypes.func,
 	handleChange: PropTypes.func,
+	post: PropTypes.object,
 };
 
 export default EditPostForm;

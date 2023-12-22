@@ -72,7 +72,9 @@ function Posts({ posts, admin, fetchData }) {
 						</Link>
 						{admin && (
 							<div>
-								<button type="button">Edit</button>
+								<Link to={`/edit-post/${post._id}`}>
+									<button type="button">Edit</button>
+								</Link>
 								<button type="button" onClick={() => deletePost(post)}>
 									Delete
 								</button>

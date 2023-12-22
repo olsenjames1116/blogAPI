@@ -15,6 +15,7 @@ function Router() {
 			<Route path="/log-in" element={<LogInPage />} />
 			<Route path="/admin-dashboard" element={<AdminPage />} />
 			<Route path="/edit-post" element={<EditPostPage />} />
+			<Route path="/edit-post/:id" element={<EditPostPage />} />
 			<Route path="/post/:id" element={<PostDetailPage />} />
 		</Routes>
 	);
