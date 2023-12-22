@@ -1,11 +1,13 @@
 import React from 'react';
-import { DateTime } from 'luxon';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { commentImage } from '../../assets/images';
+import AdminControls from '../AdminControls/AdminControls';
+import PostInfo from '../PostInfo/PostInfo';
+import { useSelector } from 'react-redux';
 
-function Posts({ posts, admin, fetchData }) {
+function Posts({ posts, fetchData }) {
+	const isAdmin = useSelector((state) => state.isAdmin.value);
+
 	const deletePost = async (post) => {
 		try {
 			await axios({
@@ -59,40 +61,14 @@ function Posts({ posts, admin, fetchData }) {
 			{posts.map((post) => {
 				return (
 					<li id={post._id} key={post._id}>
-						<Link to={`/post/${post._id}`}>
-							<div>
-								<img src={post.image.file} />
-							</div>
-							<h3>{post.title}</h3>
-							<span>{post.user.username}</span>
-							<span>
-								{DateTime.fromISO(post.timestamp).toLocaleString(
-									DateTime.DATE_MED
-								)}
-							</span>
-							<div>
-								<img src={commentImage} />
-								<span>{post.comments.length}</span>
-							</div>
-						</Link>
-						{admin && (
-							<div>
-								<Link to={`/edit-post/${post._id}`}>
-									<button type="button">Edit</button>
-								</Link>
-								<button type="button" onClick={() => deletePost(post)}>
-									Delete
-								</button>
-								{!post.published ? (
-									<button type="button" onClick={() => publishPost(post)}>
-										Publish
-									</button>
-								) : (
-									<button type="button" onClick={() => unpublishPost(post)}>
-										Unpublish
-									</button>
-								)}
-							</div>
+						<PostInfo post={post} />
+						{isAdmin && (
+							<AdminControls
+								post={post}
+								deletePost={deletePost}
+								publishPost={publishPost}
+								unpublishPost={unpublishPost}
+							/>
 						)}
 					</li>
 				);
@@ -100,10 +76,6 @@ function Posts({ posts, admin, fetchData }) {
 		</ul>
 	);
 }
-
-Posts.defaultProps = {
-	admin: false,
-};
 
 Posts.propTypes = {
 	posts: PropTypes.array,

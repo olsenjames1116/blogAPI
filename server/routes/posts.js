@@ -17,24 +17,16 @@ router.get(
 );
 
 router.post(
-	'/post/create',
+	'/create',
 	userController.verifyToken,
 	postController.validatePostCreate,
 	postController.blogCreatePost
 );
 
-router.get('/post/:id', postController.postDetailGet);
+router.get('/:id', postController.postDetailGet);
 
-router.put(
-	'/post/:id',
-	userController.verifyToken,
-	postController.blogUpdatePost
-);
+router.put('/:id', userController.verifyToken, postController.blogUpdatePost);
 
-router.delete(
-	'/post/:id',
-	userController.verifyToken,
-	postController.postDelete
-);
+router.delete('/:id', userController.verifyToken, postController.postDelete);
 
 module.exports = router;

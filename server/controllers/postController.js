@@ -13,23 +13,22 @@ exports.postListGet = asyncHandler(async (req, res, next) => {
 
 	res.json({
 		posts: allPosts,
-		isAdmin: req.user.isAdmin,
 	});
 });
 
 // Get all published posts to display on the home page.
 exports.publishedPostsGet = asyncHandler(async (req, res, next) => {
-	const publishedPosts = await Post.find({ published: true }, 'title timestamp')
+	const publishedPosts = await Post.find(
+		{ published: true },
+		'title timestamp comments'
+	)
 		.populate('user')
 		.populate('image')
 		.sort({ timestamp: -1 })
 		.exec();
 
-	isAdmin = req.user ? req.user.isAdmin : false;
-
 	res.json({
 		posts: publishedPosts,
-		isAdmin: isAdmin,
 	});
 });
 

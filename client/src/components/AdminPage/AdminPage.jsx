@@ -1,39 +1,24 @@
 import axios from 'axios';
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { logIn } from '../../redux/state/isLoggedInSlice';
-import { useNavigate, Link } from 'react-router-dom';
-import { makeAdmin } from '../../redux/state/isAdminSlice';
+import { Link } from 'react-router-dom';
 import Posts from '../Posts/Posts';
 import { useState } from 'react';
 
 function AdminPage() {
 	const [posts, setPosts] = useState([]);
 
-	const dispatch = useDispatch();
-	const navigate = useNavigate();
-
-	const redirectUser = () => {
-		dispatch(logIn());
-		navigate('/');
-	};
-
 	const fetchData = async () => {
 		try {
-			const response = await axios.get('http://localhost:4000/api/all-posts', {
-				withCredentials: true,
-			});
-			const { isAdmin, posts } = response.data;
-			if (!isAdmin) {
-				redirectUser();
-			} else {
-				dispatch(makeAdmin());
-				dispatch(logIn());
-				setPosts(posts);
-			}
+			const response = await axios.get(
+				'http://localhost:4000/api/post/all-posts',
+				{
+					withCredentials: true,
+				}
+			);
+			const { posts } = response.data;
+			setPosts(posts);
 		} catch (err) {
-			console.log(err);
-			navigate('/');
+			console.log(err.response.data);
 		}
 	};
 
@@ -50,7 +35,7 @@ function AdminPage() {
 				<Link to="/edit-post">
 					<button>+ New Post</button>
 				</Link>
-				<Posts posts={posts} admin={true} fetchData={fetchData} />
+				<Posts posts={posts} fetchData={fetchData} />
 			</div>
 		</main>
 	);

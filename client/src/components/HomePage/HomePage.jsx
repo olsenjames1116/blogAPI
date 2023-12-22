@@ -11,9 +11,12 @@ function HomePage() {
 
 		const fetchData = async () => {
 			try {
-				const response = await axios.get('http://localhost:4000/api/posts', {
-					withCredentials: true,
-				});
+				const response = await axios.get(
+					'http://localhost:4000/api/post/posts',
+					{
+						withCredentials: true,
+					}
+				);
 				const { posts } = response.data;
 				setPosts(posts);
 			} catch (err) {
