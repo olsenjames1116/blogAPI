@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { decode } from 'html-entities';
 import parse from 'html-react-parser';
 import { useSelector } from 'react-redux';
@@ -12,6 +12,7 @@ function PostDetailPage() {
 	const isLoggedIn = useSelector((state) => state.isLoggedIn.value);
 
 	const { id } = useParams();
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -48,6 +49,7 @@ function PostDetailPage() {
 				withCredentials: true,
 			});
 			console.log(response);
+			navigate(`/post/${id}`);
 		} catch (err) {
 			console.log(err);
 		}
