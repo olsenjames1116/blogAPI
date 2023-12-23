@@ -42,7 +42,7 @@ function PostDetailPage() {
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		try {
-			const response = await axios({
+			await axios({
 				method: 'post',
 				url: `http://localhost:4000/api/comment/create/${id}`,
 				data: {
@@ -50,7 +50,6 @@ function PostDetailPage() {
 				},
 				withCredentials: true,
 			});
-			console.log(response);
 			navigate(`/post/${id}`);
 		} catch (err) {
 			console.log(err);

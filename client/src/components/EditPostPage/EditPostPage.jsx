@@ -43,10 +43,10 @@ function EditPostPage() {
 		document.querySelector('input#image').value = null;
 	};
 
-	const handleSubmit = async (event) => {
+	const handleCreate = async (event) => {
 		try {
 			event.preventDefault();
-			await axios({
+			const response = await axios({
 				method: 'post',
 				url: 'http://localhost:4000/api/post/create',
 				withCredentials: true,
@@ -56,7 +56,8 @@ function EditPostPage() {
 					text: text,
 				},
 			});
-			navigate('/admin-dashboard');
+			const { id } = response.data;
+			navigate(`/post/${id}`);
 		} catch (err) {
 			const { status } = err.response;
 			if (status === 400) {
@@ -65,6 +66,30 @@ function EditPostPage() {
 			} else {
 				console.log(err);
 			}
+		}
+	};
+
+	const handleUpdate = async (event) => {
+		try {
+			event.preventDefault();
+			const response = await axios({
+				method: 'put',
+				url: `http://localhost:4000/api/post/${post._id}`,
+				withCredentials: true,
+				data: {
+					image: post.image.file,
+					title: title,
+					text: text,
+					user: post.user._id,
+					timestamp: post.timestamp,
+					comments: post.comments,
+					published: post.published,
+				},
+			});
+			const { id } = response.data;
+			navigate(`/post/${id}`);
+		} catch (err) {
+			console.log(err);
 		}
 	};
 
@@ -111,7 +136,8 @@ function EditPostPage() {
 				)}
 				<EditPostForm
 					post={post}
-					handleSubmit={handleSubmit}
+					handleCreate={handleCreate}
+					handleUpdate={handleUpdate}
 					handleChange={handleChange}
 				/>
 			</div>

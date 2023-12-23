@@ -47,16 +47,17 @@ exports.blogUpdatePost = asyncHandler(async (req, res, next) => {
 	const errors = validationResult(req);
 
 	// Create a post object with escaped/trimmed data and old id.
-	const { post } = req.body;
+	const { image, title, text, user, timestamp, comments, published } = req.body;
+	const { id } = req.params;
 	const updatedPost = new Post({
-		image: post.item,
-		user: post.user,
-		title: post.title,
-		text: post.text,
-		timestamp: post.timestamp,
-		comments: post.comments,
-		published: post.published,
-		_id: req.params.id,
+		image: image,
+		user: user,
+		title: title,
+		text: text,
+		timestamp: timestamp,
+		comments: comments,
+		published: published,
+		_id: id,
 	});
 
 	if (!errors.isEmpty()) {
@@ -66,8 +67,14 @@ exports.blogUpdatePost = asyncHandler(async (req, res, next) => {
 		});
 	} else {
 		// Data from the form is valid. Save the post.
-		await Post.findByIdAndUpdate(req.params.id, updatedPost, {});
-		res.sendStatus(202);
+		const { _id } = await Post.findByIdAndUpdate(
+			req.params.id,
+			updatedPost,
+			{}
+		);
+		res.status(202).json({
+			id: _id,
+		});
 	}
 });
 
@@ -126,6 +133,8 @@ exports.blogCreatePost = asyncHandler(async (req, res, next) => {
 	// Data from the form is valid. Save the image and post.
 	const savedImage = await newImage.save();
 	post.image = savedImage._id;
-	await post.save();
-	res.sendStatus(201);
+	const { _id } = await post.save();
+	res.status(201).json({
+		id: _id,
+	});
 });

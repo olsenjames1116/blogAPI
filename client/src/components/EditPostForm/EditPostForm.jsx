@@ -3,9 +3,13 @@ import { Editor } from '@tinymce/tinymce-react';
 import PropTypes from 'prop-types';
 import { decode } from 'html-entities';
 
-function EditPostForm({ post, handleSubmit, handleChange }) {
+function EditPostForm({ post, handleCreate, handleUpdate, handleChange }) {
 	return (
-		<form method="POST" action="/api/post/edit" onSubmit={handleSubmit}>
+		<form
+			method="POST"
+			action="/api/post/edit"
+			onSubmit={post ? handleUpdate : handleCreate}
+		>
 			{!post && (
 				<div>
 					<label htmlFor="image">Image:</label>
@@ -19,7 +23,7 @@ function EditPostForm({ post, handleSubmit, handleChange }) {
 					name="title"
 					type="text"
 					onChange={handleChange}
-					value={post && post.title}
+					defaultValue={post ? post.title : ''}
 				/>
 			</div>
 			<div>
@@ -53,7 +57,8 @@ function EditPostForm({ post, handleSubmit, handleChange }) {
 }
 
 EditPostForm.propTypes = {
-	handleSubmit: PropTypes.func,
+	handleCreate: PropTypes.func,
+	handleUpdate: PropTypes.func,
 	handleChange: PropTypes.func,
 	post: PropTypes.object,
 };
