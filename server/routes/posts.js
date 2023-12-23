@@ -29,6 +29,7 @@ router.get('/:id', postController.postDetailGet);
 router.put(
 	'/:id',
 	userController.verifyUserIsAdmin,
+	postController.validatePostUpdate,
 	postController.blogUpdatePost
 );
 

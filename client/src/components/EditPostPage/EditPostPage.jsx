@@ -71,19 +71,29 @@ function EditPostPage() {
 
 	const handleUpdate = async (event) => {
 		event.preventDefault();
+
+		const updatedTitle = !title ? post.title : title;
+		const updatedText = !text ? post.text : text;
+
 		try {
 			const response = await axios({
 				method: 'put',
 				url: `http://localhost:4000/api/post/${post._id}`,
 				withCredentials: true,
 				data: {
-					post: { ...post, title: title, text: text },
+					post: { ...post, title: updatedTitle, text: updatedText },
 				},
 			});
 			const { id } = response.data;
 			navigate(`/post/${id}`);
 		} catch (err) {
-			console.log(err);
+			const { status } = err.response;
+			if (status === 400) {
+				const { message } = err.response.data;
+				setMessage(message);
+			} else {
+				console.log(err);
+			}
 		}
 	};
 

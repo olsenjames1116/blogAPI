@@ -42,6 +42,19 @@ exports.postDelete = asyncHandler(async (req, res, next) => {
 	res.sendStatus(202);
 });
 
+// Validate and sanitize data from the request.
+exports.validatePostUpdate = [
+	body('post.image').custom(({ file }) => {
+		if (!file.includes('image')) {
+			throw new Error('File is not of type image.');
+		} else {
+			return true;
+		}
+	}),
+	body('post.title', 'Title must not be empty.').trim().escape().notEmpty(),
+	body('post.text', 'Text must not be empty.').trim().escape().notEmpty(),
+];
+
 exports.blogUpdatePost = asyncHandler(async (req, res, next) => {
 	// Extract the validation errors from a request.
 	const errors = validationResult(req);
@@ -63,7 +76,7 @@ exports.blogUpdatePost = asyncHandler(async (req, res, next) => {
 	if (!errors.isEmpty()) {
 		// There are errors.
 		return res.status(400).json({
-			errors: errors.array(),
+			message: errors.array(),
 		});
 	} else {
 		// Data from the form is valid. Save the post.
