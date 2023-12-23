@@ -85,7 +85,7 @@ Posts.propTypes = {
 	posts: PropTypes.array,
 	admin: PropTypes.bool,
 	fetchData: PropTypes.func,
-	adminPage: PropTypes.boolean,
+	adminPage: PropTypes.bool,
 };
 
 export default Posts;

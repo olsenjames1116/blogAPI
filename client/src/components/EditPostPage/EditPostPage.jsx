@@ -77,13 +77,7 @@ function EditPostPage() {
 				url: `http://localhost:4000/api/post/${post._id}`,
 				withCredentials: true,
 				data: {
-					image: post.image.file,
-					title: title,
-					text: text,
-					user: post.user._id,
-					timestamp: post.timestamp,
-					comments: post.comments,
-					published: post.published,
+					post: { ...post, title: title, text: text },
 				},
 			});
 			const { id } = response.data;

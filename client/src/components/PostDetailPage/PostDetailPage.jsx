@@ -1,20 +1,31 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { decode } from 'html-entities';
 import parse from 'html-react-parser';
 import { useSelector } from 'react-redux';
 import { DateTime } from 'luxon';
 import { userImage } from '../../assets/images';
+import FormMessage from '../FormMessage/FormMessage';
 
 function PostDetailPage() {
 	const [post, setPost] = useState();
 	const [text, setText] = useState();
+	const [message, setMessage] = useState([]);
+	const [comments, setComments] = useState(null);
 
 	const isLoggedIn = useSelector((state) => state.isLoggedIn.value);
 
 	const { id } = useParams();
-	const navigate = useNavigate();
+
+	const sortComments = (comments) => {
+		return comments.sort((a, b) => {
+			if (a.timestamp > b.timestamp) {
+				return -1;
+			}
+			return 1;
+		});
+	};
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -27,6 +38,7 @@ function PostDetailPage() {
 				);
 				const { post } = response.data;
 				setPost(post);
+				setComments(sortComments(post.comments));
 			} catch (err) {
 				console.log(err);
 			}
@@ -42,7 +54,7 @@ function PostDetailPage() {
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		try {
-			await axios({
+			const response = await axios({
 				method: 'post',
 				url: `http://localhost:4000/api/comment/create/${id}`,
 				data: {
@@ -50,9 +62,17 @@ function PostDetailPage() {
 				},
 				withCredentials: true,
 			});
-			navigate(`/post/${id}`);
+			const { comments } = response.data;
+			setComments(sortComments(comments));
+			document.querySelector('textarea#text').value = '';
 		} catch (err) {
-			console.log(err);
+			const { status } = err.response;
+			if (status === 400) {
+				const { message } = err.response.data;
+				setMessage(message);
+			} else {
+				console.log(err);
+			}
 		}
 	};
 
@@ -70,7 +90,7 @@ function PostDetailPage() {
 							{isLoggedIn && (
 								<div>
 									<h3>Share your thoughts:</h3>
-									<span>{post.comments.length} Comments</span>
+									<span>{comments.length} Comments</span>
 									<form
 										method="POST"
 										action="/api/comment/create"
@@ -82,12 +102,13 @@ function PostDetailPage() {
 											placeholder="What's on your mind?"
 											onChange={handleChange}
 										/>
+										<FormMessage message={message} />
 										<button type="submit">Submit</button>
 									</form>
 								</div>
 							)}
 							<ul>
-								{post.comments.map((comment) => {
+								{comments.map((comment) => {
 									return (
 										<li key={comment._id}>
 											<div>

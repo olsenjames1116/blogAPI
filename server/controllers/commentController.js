@@ -1,7 +1,12 @@
-const { validationResult } = require('express-validator');
+const { validationResult, body } = require('express-validator');
 const Comment = require('../models/comment');
 const Post = require('../models/post');
 const asyncHandler = require('express-async-handler');
+
+// Validate and sanitize data from the request.
+exports.validateCommentCreate = [
+	body('text', 'Text must not be empty.').trim().escape().notEmpty(),
+];
 
 exports.commentCreatePost = asyncHandler(async (req, res, next) => {
 	// Extract the validation errors from the request.
@@ -17,12 +22,22 @@ exports.commentCreatePost = asyncHandler(async (req, res, next) => {
 	if (!errors.isEmpty()) {
 		// There are errors.
 		return res.status(400).json({
-			errors: errors.array(),
+			message: errors.array(),
 		});
 	}
 
 	const newComment = await comment.save();
 	const post = await Post.findById(req.params.id);
 	post.comments.push(newComment);
-	await post.save();
+	const updatedPost = await Post.findOneAndUpdate(
+		{ _id: req.params.id },
+		{ comments: post.comments },
+		{ new: true }
+	)
+		.populate({ path: 'comments', populate: { path: 'user' } })
+		.sort({ 'comments.timestamp': -1 })
+		.exec();
+	res.json({
+		comments: updatedPost.comments,
+	});
 });

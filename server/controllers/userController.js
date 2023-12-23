@@ -25,11 +25,15 @@ exports.verifyUserIsAdmin = (req, res, next) => {
 			if (err) {
 				res.sendStatus(500);
 			} else {
-				req.user = user;
+				if (user.isAdmin) {
+					req.user = user;
+					next();
+				} else {
+					res.sendStatus(403);
+				}
 			}
 		});
 	}
-	next();
 };
 
 // Validate and sanitize fields to create user.
@@ -116,7 +120,7 @@ exports.userLogInPost =
 		const accessToken = jwt.sign(
 			user.toJSON(),
 			process.env.ACCESS_TOKEN_SECRET,
-			{ expiresIn: '5m' }
+			{ expiresIn: '1d' }
 		);
 
 		res

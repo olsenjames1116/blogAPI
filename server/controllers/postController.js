@@ -47,16 +47,16 @@ exports.blogUpdatePost = asyncHandler(async (req, res, next) => {
 	const errors = validationResult(req);
 
 	// Create a post object with escaped/trimmed data and old id.
-	const { image, title, text, user, timestamp, comments, published } = req.body;
+	const { post } = req.body;
 	const { id } = req.params;
 	const updatedPost = new Post({
-		image: image,
-		user: user,
-		title: title,
-		text: text,
-		timestamp: timestamp,
-		comments: comments,
-		published: published,
+		image: post.image,
+		user: post.user,
+		title: post.title,
+		text: post.text,
+		timestamp: post.timestamp,
+		comments: post.comments,
+		published: post.published,
 		_id: id,
 	});
 
