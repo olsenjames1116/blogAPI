@@ -13,10 +13,7 @@ function AdminPage() {
 	const fetchData = async () => {
 		try {
 			const response = await axios.get(
-				'http://localhost:4000/api/post/all-posts',
-				{
-					withCredentials: true,
-				}
+				'http://localhost:4000/api/post/all-posts'
 			);
 			const { posts } = response.data;
 			setPosts(posts);

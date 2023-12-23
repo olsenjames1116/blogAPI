@@ -12,10 +12,7 @@ function HomePage() {
 		const fetchData = async () => {
 			try {
 				const response = await axios.get(
-					'http://localhost:4000/api/post/posts',
-					{
-						withCredentials: true,
-					}
+					'http://localhost:4000/api/post/posts'
 				);
 				const { posts } = response.data;
 				setPosts(posts);

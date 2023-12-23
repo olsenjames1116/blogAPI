@@ -13,9 +13,7 @@ function Links() {
 
 	const logOutUser = async () => {
 		try {
-			await axios.get('http://localhost:4000/api/user/log-out', {
-				withCredentials: true,
-			});
+			await axios.get('http://localhost:4000/api/user/log-out');
 		} catch (err) {
 			console.log(err);
 		}

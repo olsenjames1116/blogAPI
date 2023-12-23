@@ -43,7 +43,6 @@ function LogInPage() {
 					username: username,
 					password: password,
 				},
-				withCredentials: true,
 			});
 			const { isAdmin } = response.data;
 			handleSuccess(isAdmin);

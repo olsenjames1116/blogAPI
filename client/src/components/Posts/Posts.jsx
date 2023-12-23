@@ -16,7 +16,6 @@ function Posts({ posts, fetchData, adminPage }) {
 				data: {
 					post: post,
 				},
-				withCredentials: true,
 			});
 			fetchData();
 		} catch (err) {
@@ -32,7 +31,6 @@ function Posts({ posts, fetchData, adminPage }) {
 				data: {
 					post: { ...post, published: true },
 				},
-				withCredentials: true,
 			});
 			fetchData();
 		} catch (err) {
@@ -48,7 +46,6 @@ function Posts({ posts, fetchData, adminPage }) {
 				data: {
 					post: { ...post, published: false },
 				},
-				withCredentials: true,
 			});
 			fetchData();
 		} catch (err) {

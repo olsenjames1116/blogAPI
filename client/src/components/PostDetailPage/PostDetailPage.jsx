@@ -31,10 +31,7 @@ function PostDetailPage() {
 		const fetchData = async () => {
 			try {
 				const response = await axios.get(
-					`http://localhost:4000/api/post/${id}`,
-					{
-						withCredentials: true,
-					}
+					`http://localhost:4000/api/post/${id}`
 				);
 				const { post } = response.data;
 				setPost(post);
@@ -60,7 +57,6 @@ function PostDetailPage() {
 				data: {
 					text: text,
 				},
-				withCredentials: true,
 			});
 			const { comments } = response.data;
 			setComments(sortComments(comments));

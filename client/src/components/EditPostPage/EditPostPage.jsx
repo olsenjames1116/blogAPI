@@ -22,9 +22,7 @@ function EditPostPage() {
 
 	const loadData = async () => {
 		try {
-			const response = await axios.get(`http://localhost:4000/api/post/${id}`, {
-				withCredentials: true,
-			});
+			const response = await axios.get(`http://localhost:4000/api/post/${id}`);
 			const { post } = response.data;
 			setPost(post);
 		} catch (err) {
@@ -49,7 +47,6 @@ function EditPostPage() {
 			const response = await axios({
 				method: 'post',
 				url: 'http://localhost:4000/api/post/create',
-				withCredentials: true,
 				data: {
 					image: imageBase64,
 					title: title,
@@ -73,13 +70,19 @@ function EditPostPage() {
 		event.preventDefault();
 
 		const updatedTitle = !title ? post.title : title;
-		const updatedText = !text ? post.text : text;
+		let updatedText;
+		console.log(post.text);
+		if (!text) {
+			updatedText = post.text;
+			updatedText = updatedText.substring();
+		} else {
+			updatedText = text;
+		}
 
 		try {
 			const response = await axios({
 				method: 'put',
 				url: `http://localhost:4000/api/post/${post._id}`,
-				withCredentials: true,
 				data: {
 					post: { ...post, title: updatedTitle, text: updatedText },
 				},
