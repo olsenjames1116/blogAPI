@@ -34,8 +34,8 @@ function LogInPage() {
 	};
 
 	const handleSubmit = async (event) => {
+		event.preventDefault();
 		try {
-			event.preventDefault();
 			const response = await axios({
 				method: 'post',
 				url: 'http://localhost:4000/api/user/log-in',

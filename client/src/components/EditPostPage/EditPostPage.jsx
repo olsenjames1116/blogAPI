@@ -44,8 +44,8 @@ function EditPostPage() {
 	};
 
 	const handleCreate = async (event) => {
+		event.preventDefault();
 		try {
-			event.preventDefault();
 			const response = await axios({
 				method: 'post',
 				url: 'http://localhost:4000/api/post/create',
@@ -70,8 +70,8 @@ function EditPostPage() {
 	};
 
 	const handleUpdate = async (event) => {
+		event.preventDefault();
 		try {
-			event.preventDefault();
 			const response = await axios({
 				method: 'put',
 				url: `http://localhost:4000/api/post/${post._id}`,

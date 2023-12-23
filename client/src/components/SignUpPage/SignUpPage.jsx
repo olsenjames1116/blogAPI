@@ -34,8 +34,8 @@ function SignUpPage() {
 	};
 
 	const handleSubmit = async (event) => {
+		event.preventDefault();
 		try {
-			event.preventDefault();
 			const response = await axios.post(
 				'http://localhost:4000/api/user/sign-up',
 				{

@@ -35,7 +35,6 @@ exports.commentCreatePost = asyncHandler(async (req, res, next) => {
 		{ new: true }
 	)
 		.populate({ path: 'comments', populate: { path: 'user' } })
-		.sort({ 'comments.timestamp': -1 })
 		.exec();
 	res.json({
 		comments: updatedPost.comments,
