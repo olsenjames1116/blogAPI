@@ -6,7 +6,7 @@ const asyncHandler = require('express-async-handler');
 
 // Verify a user's token.
 exports.verifyToken = (req, res, next) => {
-	const { accessToken } = req.cookies || '';
+	const { accessToken } = req.cookies;
 	if (!accessToken) return res.sendStatus(401);
 
 	jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
@@ -19,7 +19,8 @@ exports.verifyToken = (req, res, next) => {
 
 // Verify a user is an admin.
 exports.verifyUserIsAdmin = (req, res, next) => {
-	const { accessToken } = req.cookies || '';
+	// const { accessToken } = req.body;
+	const { accessToken } = req.cookies;
 	if (accessToken) {
 		jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
 			if (err) {
@@ -126,9 +127,11 @@ exports.userLogInPost =
 		res
 			.status(200)
 			.cookie('accessToken', accessToken, {
-				maxAge: 86400,
-				secure: false,
+				path: '/',
 				httpOnly: true,
+				secure: false,
+				maxAge: 86400,
+				origin: 'http://localhost:5173',
 			})
 			.json({
 				isAdmin: user.isAdmin,

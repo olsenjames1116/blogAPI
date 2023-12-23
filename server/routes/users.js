@@ -14,6 +14,6 @@ router.post(
 router.post('/log-in', userController.userLogInPost);
 
 // Remove token in cookies for the user on log out.
-router.get('/log-out', userController.verifyToken, userController.clearToken);
+router.get('/log-out', userController.clearToken);
 
 module.exports = router;

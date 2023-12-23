@@ -73,7 +73,8 @@ function EditPostPage() {
 		console.log(post.text);
 		if (!text) {
 			updatedText = post.text;
-			updatedText = updatedText.substring();
+			updatedText = updatedText.substring(9, updatedText.length - 15);
+			console.log(updatedText);
 		} else {
 			updatedText = text;
 		}
