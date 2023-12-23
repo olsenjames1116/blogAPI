@@ -34,11 +34,10 @@ exports.publishedPostsGet = asyncHandler(async (req, res, next) => {
 
 exports.postDelete = asyncHandler(async (req, res, next) => {
 	// Get details of post.
-	const { _id } = req.body.post;
-	const post = await Post.findById(_id);
+	const { id } = req.params;
 
 	// Delete object.
-	await Post.findByIdAndDelete(_id);
+	await Post.findByIdAndDelete(id);
 	res.sendStatus(202);
 });
 

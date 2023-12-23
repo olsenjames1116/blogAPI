@@ -44,15 +44,14 @@ function EditPostPage() {
 	const handleCreate = async (event) => {
 		event.preventDefault();
 		try {
-			const response = await axios({
-				method: 'post',
-				url: 'http://localhost:4000/api/post/create',
-				data: {
+			const response = await axios.post(
+				'http://localhost:4000/api/post/create',
+				{
 					image: imageBase64,
 					title: title,
 					text: text,
-				},
-			});
+				}
+			);
 			const { id } = response.data;
 			navigate(`/post/${id}`);
 		} catch (err) {
@@ -80,13 +79,12 @@ function EditPostPage() {
 		}
 
 		try {
-			const response = await axios({
-				method: 'put',
-				url: `http://localhost:4000/api/post/${post._id}`,
-				data: {
+			const response = await axios.put(
+				`http://localhost:4000/api/post/${post._id}`,
+				{
 					post: { ...post, title: updatedTitle, text: updatedText },
-				},
-			});
+				}
+			);
 			const { id } = response.data;
 			navigate(`/post/${id}`);
 		} catch (err) {

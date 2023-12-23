@@ -10,12 +10,8 @@ function Posts({ posts, fetchData, adminPage }) {
 
 	const deletePost = async (post) => {
 		try {
-			await axios({
-				method: 'delete',
-				url: `http://localhost:4000/api/post/${post._id}`,
-				data: {
-					post: post,
-				},
+			await axios.delete(`http://localhost:4000/api/post/${post._id}`, {
+				post: post,
 			});
 			fetchData();
 		} catch (err) {
@@ -25,12 +21,8 @@ function Posts({ posts, fetchData, adminPage }) {
 
 	const publishPost = async (post) => {
 		try {
-			await axios({
-				method: 'put',
-				url: `http://localhost:4000/api/post/${post._id}`,
-				data: {
-					post: { ...post, published: true },
-				},
+			await axios.put(`http://localhost:4000/api/post/${post._id}`, {
+				post: { ...post, published: true },
 			});
 			fetchData();
 		} catch (err) {
@@ -40,12 +32,8 @@ function Posts({ posts, fetchData, adminPage }) {
 
 	const unpublishPost = async (post) => {
 		try {
-			await axios({
-				method: 'put',
-				url: `http://localhost:4000/api/post/${post._id}`,
-				data: {
-					post: { ...post, published: false },
-				},
+			await axios.put(`http://localhost:4000/api/post/${post._id}`, {
+				post: { ...post, published: false },
 			});
 			fetchData();
 		} catch (err) {

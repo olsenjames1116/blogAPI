@@ -51,13 +51,12 @@ function PostDetailPage() {
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		try {
-			const response = await axios({
-				method: 'post',
-				url: `http://localhost:4000/api/comment/create/${id}`,
-				data: {
+			const response = await axios.post(
+				`http://localhost:4000/api/comment/create/${id}`,
+				{
 					text: text,
-				},
-			});
+				}
+			);
 			const { comments } = response.data;
 			setComments(sortComments(comments));
 			document.querySelector('textarea#text').value = '';

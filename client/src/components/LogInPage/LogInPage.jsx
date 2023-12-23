@@ -36,14 +36,13 @@ function LogInPage() {
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		try {
-			const response = await axios({
-				method: 'post',
-				url: 'http://localhost:4000/api/user/log-in',
-				data: {
+			const response = await axios.post(
+				'http://localhost:4000/api/user/log-in',
+				{
 					username: username,
 					password: password,
-				},
-			});
+				}
+			);
 			const { isAdmin } = response.data;
 			handleSuccess(isAdmin);
 		} catch (err) {
