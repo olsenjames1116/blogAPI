@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../../axiosConfig';
 import Posts from '../Posts/Posts';
 
 function HomePage() {
@@ -11,9 +11,7 @@ function HomePage() {
 
 		const fetchData = async () => {
 			try {
-				const response = await axios.get(
-					'http://localhost:4000/api/post/posts'
-				);
+				const response = await api.get('/post/posts');
 				const { posts } = response.data;
 				setPosts(posts);
 			} catch (err) {

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '../../axiosConfig';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { decode } from 'html-entities';
@@ -30,9 +30,7 @@ function PostDetailPage() {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const response = await axios.get(
-					`http://localhost:4000/api/post/${id}`
-				);
+				const response = await api.get(`/post/${id}`);
 				const { post } = response.data;
 				setPost(post);
 				setComments(sortComments(post.comments));
@@ -51,12 +49,9 @@ function PostDetailPage() {
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		try {
-			const response = await axios.post(
-				`http://localhost:4000/api/comment/create/${id}`,
-				{
-					text: text,
-				}
-			);
+			const response = await api.post(`/comment/create/${id}`, {
+				text: text,
+			});
 			const { comments } = response.data;
 			setComments(sortComments(comments));
 			document.querySelector('textarea#text').value = '';

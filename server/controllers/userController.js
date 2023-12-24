@@ -58,13 +58,13 @@ exports.verifyRefreshToken = async (req, res, next) => {
 
 	const user = await User.findOne({ username: username });
 	const accessToken = jwt.sign(user.toJSON(), process.env.ACCESS_TOKEN_SECRET, {
-		expiresIn: '1m',
+		expiresIn: '2m',
 	});
 	const newRefreshToken = jwt.sign(
 		user.toJSON(),
 		process.env.REFRESH_TOKEN_SECRET,
 		{
-			expiresIn: '2m',
+			expiresIn: '10m',
 		}
 	);
 	res.status(200).json({
@@ -158,29 +158,21 @@ exports.userLogInPost =
 		const accessToken = jwt.sign(
 			user.toJSON(),
 			process.env.ACCESS_TOKEN_SECRET,
-			{ expiresIn: '1m' }
+			{ expiresIn: '2m' }
 		);
 
 		const refreshToken = jwt.sign(
 			user.toJSON(),
 			process.env.REFRESH_TOKEN_SECRET,
-			{ expiresIn: '2m' }
+			{ expiresIn: '10m' }
 		);
 
-		res
-			.status(200)
-			// .cookie('accessToken', accessToken, {
-			// 	httpOnly: true,
-			// 	secure: false,
-			// 	maxAge: 86400,
-			// 	origin: 'http://localhost:5173',
-			// })
-			.json({
-				isAdmin: user.isAdmin,
-				accessToken: accessToken,
-				refreshToken: refreshToken,
-				username: username,
-			});
+		res.status(200).json({
+			isAdmin: user.isAdmin,
+			accessToken: accessToken,
+			refreshToken: refreshToken,
+			username: username,
+		});
 	});
 
 // Clear the stored access token on log out.

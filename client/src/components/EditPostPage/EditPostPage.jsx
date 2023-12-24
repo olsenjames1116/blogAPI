@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '../../axiosConfig';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
@@ -22,7 +22,7 @@ function EditPostPage() {
 
 	const loadData = async () => {
 		try {
-			const response = await axios.get(`http://localhost:4000/api/post/${id}`);
+			const response = await api.get(`/post/${id}`);
 			const { post } = response.data;
 			setPost(post);
 		} catch (err) {
@@ -44,14 +44,11 @@ function EditPostPage() {
 	const handleCreate = async (event) => {
 		event.preventDefault();
 		try {
-			const response = await axios.post(
-				'http://localhost:4000/api/post/create',
-				{
-					image: imageBase64,
-					title: title,
-					text: text,
-				}
-			);
+			const response = await api.post('/post/create', {
+				image: imageBase64,
+				title: title,
+				text: text,
+			});
 			const { id } = response.data;
 			navigate(`/post/${id}`);
 		} catch (err) {
@@ -80,12 +77,9 @@ function EditPostPage() {
 		}
 
 		try {
-			const response = await axios.put(
-				`http://localhost:4000/api/post/${post._id}`,
-				{
-					post: { ...post, title: updatedTitle, text: updatedText },
-				}
-			);
+			const response = await api.put(`/post/${post._id}`, {
+				post: { ...post, title: updatedTitle, text: updatedText },
+			});
 			const { id } = response.data;
 			navigate(`/post/${id}`);
 		} catch (err) {

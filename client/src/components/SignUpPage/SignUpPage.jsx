@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../../axiosConfig';
 import SignUpForm from '../SignUpForm/SignUpForm';
 import FormMessage from '../FormMessage/FormMessage';
 import { Navigate, useNavigate } from 'react-router-dom';
@@ -36,14 +36,11 @@ function SignUpPage() {
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		try {
-			const response = await axios.post(
-				'http://localhost:4000/api/user/sign-up',
-				{
-					username: username,
-					password: password,
-					confirmPassword: confirmPassword,
-				}
-			);
+			const response = await api.post('/user/sign-up', {
+				username: username,
+				password: password,
+				confirmPassword: confirmPassword,
+			});
 			const { message } = response.data;
 			const { status } = response;
 			handleSuccess(message);

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logOut } from '../../redux/state/isLoggedInSlice';
-import axios from 'axios';
+import api from '../../axiosConfig';
 import { removeAdmin } from '../../redux/state/isAdminSlice';
 import Cookies from 'universal-cookie';
 
@@ -16,7 +16,7 @@ function Links() {
 
 	const logOutUser = async () => {
 		try {
-			await axios.get('http://localhost:4000/api/user/log-out');
+			await api.get('/user/log-out');
 		} catch (err) {
 			console.log(err);
 		}
