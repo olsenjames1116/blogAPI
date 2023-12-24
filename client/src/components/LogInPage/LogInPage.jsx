@@ -2,7 +2,8 @@ import React from 'react';
 import LogInForm from '../LogInForm/LogInForm';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
+import api from '../../axiosConfig';
 import FormMessage from '../FormMessage/FormMessage';
 import { useDispatch, useSelector } from 'react-redux';
 import { logIn } from '../../redux/state/isLoggedInSlice';
@@ -36,13 +37,20 @@ function LogInPage() {
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		try {
-			const response = await axios.post(
-				'http://localhost:4000/api/user/log-in',
-				{
-					username: username,
-					password: password,
-				}
-			);
+			// const response = await fetch('http://localhost:4000/api/user/log-in', {
+			// 	method: 'POST',
+			// 	credentials: 'include',
+			// 	headers: { 'Content-Type': 'application/json' },
+			// 	body: JSON.stringify({
+			// 		username: username,
+			// 		password: password,
+			// 	}),
+			// });
+			const response = await api.post('/user/log-in', {
+				username: username,
+				password: password,
+			});
+			// const { isAdmin } = await response.json();
 			const { isAdmin } = response.data;
 			handleSuccess(isAdmin);
 		} catch (err) {

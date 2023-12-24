@@ -127,7 +127,6 @@ exports.userLogInPost =
 		res
 			.status(200)
 			.cookie('accessToken', accessToken, {
-				path: '/',
 				httpOnly: true,
 				secure: false,
 				maxAge: 86400,

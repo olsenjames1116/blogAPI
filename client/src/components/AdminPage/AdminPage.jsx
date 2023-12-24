@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '../../axiosConfig';
 import React, { useEffect } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import Posts from '../Posts/Posts';
@@ -12,9 +12,7 @@ function AdminPage() {
 
 	const fetchData = async () => {
 		try {
-			const response = await axios.get(
-				'http://localhost:4000/api/post/all-posts'
-			);
+			const response = await api.get('/post/all-posts');
 			const { posts } = response.data;
 			setPosts(posts);
 		} catch (err) {
