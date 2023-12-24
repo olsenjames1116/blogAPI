@@ -4,12 +4,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import { logOut } from '../../redux/state/isLoggedInSlice';
 import axios from 'axios';
 import { removeAdmin } from '../../redux/state/isAdminSlice';
+import Cookies from 'universal-cookie';
 
 function Links() {
 	const isLoggedIn = useSelector((state) => state.isLoggedIn.value);
 	const isAdmin = useSelector((state) => state.isAdmin.value);
 
 	const dispatch = useDispatch();
+
+	const cookies = new Cookies();
 
 	const logOutUser = async () => {
 		try {
@@ -20,6 +23,9 @@ function Links() {
 
 		localStorage.removeItem('isLoggedIn');
 		localStorage.removeItem('isAdmin');
+		cookies.remove('accessToken');
+		cookies.remove('refreshToken');
+		cookies.remove('username');
 		dispatch(logOut());
 		dispatch(removeAdmin());
 	};

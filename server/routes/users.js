@@ -13,6 +13,9 @@ router.post(
 // Validate the user's credentials and log them in on post.
 router.post('/log-in', userController.userLogInPost);
 
+// Get a new refresh token and access token for the user.
+router.get('/refresh', userController.verifyRefreshToken);
+
 // Remove token in cookies for the user on log out.
 router.get('/log-out', userController.clearToken);
 

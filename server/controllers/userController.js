@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const asyncHandler = require('express-async-handler');
 
-// Verify a user's token.
+// Verify a user's access token.
 exports.verifyToken = (req, res, next) => {
 	const { accessToken } = req.cookies;
 	if (!accessToken) return res.sendStatus(401);
@@ -19,12 +19,11 @@ exports.verifyToken = (req, res, next) => {
 
 // Verify a user is an admin.
 exports.verifyUserIsAdmin = (req, res, next) => {
-	// const { accessToken } = req.body;
 	const { accessToken } = req.cookies;
 	if (accessToken) {
 		jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
 			if (err) {
-				res.sendStatus(500);
+				res.sendStatus(403);
 			} else {
 				if (user.isAdmin) {
 					req.user = user;
@@ -35,6 +34,44 @@ exports.verifyUserIsAdmin = (req, res, next) => {
 			}
 		});
 	}
+};
+
+const verifyRefresh = (username, refreshToken) => {
+	try {
+		const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+		return decoded.username === username;
+	} catch (err) {
+		return false;
+	}
+};
+
+// Verify a user's refresh token.
+exports.verifyRefreshToken = async (req, res, next) => {
+	const { username, refreshToken } = req.cookies;
+	if (!username) return res.sendStatus(403);
+
+	const isValid = verifyRefresh(username, refreshToken);
+
+	if (!isValid) {
+		return res.sendStatus(403);
+	}
+
+	const user = await User.findOne({ username: username });
+	const accessToken = jwt.sign(user.toJSON(), process.env.ACCESS_TOKEN_SECRET, {
+		expiresIn: '1m',
+	});
+	const newRefreshToken = jwt.sign(
+		user.toJSON(),
+		process.env.REFRESH_TOKEN_SECRET,
+		{
+			expiresIn: '2m',
+		}
+	);
+	res.status(200).json({
+		accessToken: accessToken,
+		refreshToken: newRefreshToken,
+		username: username,
+	});
 };
 
 // Validate and sanitize fields to create user.
@@ -121,23 +158,32 @@ exports.userLogInPost =
 		const accessToken = jwt.sign(
 			user.toJSON(),
 			process.env.ACCESS_TOKEN_SECRET,
-			{ expiresIn: '1d' }
+			{ expiresIn: '1m' }
+		);
+
+		const refreshToken = jwt.sign(
+			user.toJSON(),
+			process.env.REFRESH_TOKEN_SECRET,
+			{ expiresIn: '2m' }
 		);
 
 		res
 			.status(200)
-			.cookie('accessToken', accessToken, {
-				httpOnly: true,
-				secure: false,
-				maxAge: 86400,
-				origin: 'http://localhost:5173',
-			})
+			// .cookie('accessToken', accessToken, {
+			// 	httpOnly: true,
+			// 	secure: false,
+			// 	maxAge: 86400,
+			// 	origin: 'http://localhost:5173',
+			// })
 			.json({
 				isAdmin: user.isAdmin,
+				accessToken: accessToken,
+				refreshToken: refreshToken,
+				username: username,
 			});
 	});
 
 // Clear the stored access token on log out.
 exports.clearToken = asyncHandler(async (req, res, next) => {
-	res.clearCookie('accessToken').sendStatus(202);
+	res.sendStatus(202);
 });
