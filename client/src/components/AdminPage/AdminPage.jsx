@@ -6,12 +6,14 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import Loading from '../Loading/Loading';
 
+// Represents the admin dashboard for admins.
 function AdminPage() {
 	const [posts, setPosts] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 
 	const isAdmin = useSelector((state) => state.isAdmin.value);
 
+	// Fetch all posts stored on the db.
 	const fetchData = async () => {
 		try {
 			const response = await api.get('/post/all-posts');

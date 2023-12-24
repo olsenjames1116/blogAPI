@@ -6,6 +6,7 @@ import EditPostForm from '../EditPostForm/EditPostForm';
 import DynamicImageDisplay from '../DynamicImageDisplay/DynamicImageDisplay';
 import FormMessage from '../FormMessage/FormMessage';
 
+// Represents the page where an admin can edit existing and create new posts.
 function EditPostPage() {
 	const [message, setMessage] = useState([]);
 	const [image, setImage] = useState(null);
@@ -20,6 +21,7 @@ function EditPostPage() {
 
 	const { id } = useParams();
 
+	// Loads a post to edit if the page was reached with a post to edit.
 	const loadData = async () => {
 		try {
 			const response = await api.get(`/post/${id}`);
@@ -36,11 +38,13 @@ function EditPostPage() {
 		id && loadData();
 	}, []);
 
+	// Removes the image input and dynamic image display if the user selects to remove it.
 	const removeImage = () => {
 		setImage(null);
 		document.querySelector('input#image').value = null;
 	};
 
+	// Creates a new post in the db.
 	const handleCreate = async (event) => {
 		event.preventDefault();
 		try {
@@ -62,9 +66,11 @@ function EditPostPage() {
 		}
 	};
 
+	// Updates an existing post in the db.
 	const handleUpdate = async (event) => {
 		event.preventDefault();
 
+		// If the user does not input any new data, store the existing data.
 		const updatedTitle = !title ? post.title : title;
 		let updatedText;
 		console.log(post.text);
@@ -93,6 +99,7 @@ function EditPostPage() {
 		}
 	};
 
+	// Convert an image to base64 to store in the database.
 	const convertToBase64 = async (image) => {
 		return new Promise((resolve, reject) => {
 			const fileReader = new FileReader();
@@ -106,9 +113,11 @@ function EditPostPage() {
 		});
 	};
 
+	// Reached when the user interacts with the input fields to store data in state.
 	const handleChange = async (event) => {
 		const { id, value, files } = event.target;
 
+		// Switch to store the input based on which input field the user interacted with.
 		switch (id) {
 			case 'image':
 				setImageBase64(await convertToBase64(files[0]));

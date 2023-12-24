@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// Represents the image display from the image input.
 function DynamicImageDisplay({ image, removeImage }) {
 	return (
 		<div className="dynamicImageDisplay">

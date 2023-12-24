@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// Represents the message to be displayed around forms. Either contains errors or a message from the server.
 function FormMessage({ message, status }) {
 	return (
 		<div className="formMessage">

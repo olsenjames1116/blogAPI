@@ -1,5 +1,6 @@
 import React from 'react';
 
+// Represents the credit to the developer.
 function AuthorCredit() {
 	return (
 		<div className="authorCredit">

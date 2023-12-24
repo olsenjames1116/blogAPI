@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+// Represents the controls that appear to an admin on the dashboard.
 function AdminControls({ post, deletePost, publishPost, unpublishPost }) {
 	return (
 		<div className="adminControls">
