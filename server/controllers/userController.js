@@ -36,6 +36,7 @@ exports.verifyUserIsAdmin = (req, res, next) => {
 	}
 };
 
+// Verifies a user's refresh token when the access token fails.
 const verifyRefresh = (username, refreshToken) => {
 	try {
 		const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
@@ -111,6 +112,7 @@ const storeUser = (user) => {
 	});
 };
 
+// Creates a user to be stored in the db.
 exports.userCreatePost =
 	// Process request after validation and sanitization.
 	asyncHandler(async (req, res, next) => {
@@ -140,6 +142,7 @@ exports.userCreatePost =
 		}
 	});
 
+// Logs a user in.
 exports.userLogInPost =
 	// Verify the user's log in credentials.
 	asyncHandler(async (req, res, next) => {

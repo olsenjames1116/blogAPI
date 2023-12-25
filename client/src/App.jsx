@@ -10,6 +10,7 @@ import { makeAdmin } from './redux/state/isAdminSlice';
 function App() {
 	const dispatch = useDispatch();
 
+	// If the user reloads the page, they stay logged in with their admin info.
 	useEffect(() => {
 		const isLoggedIn = localStorage.getItem('isLoggedIn');
 		const isAdmin = localStorage.getItem('isAdmin');

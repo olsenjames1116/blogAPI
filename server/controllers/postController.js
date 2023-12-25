@@ -32,6 +32,7 @@ exports.publishedPostsGet = asyncHandler(async (req, res, next) => {
 	});
 });
 
+// Deletes a post from the db at the request of the user.
 exports.postDelete = asyncHandler(async (req, res, next) => {
 	// Get details of post.
 	const { id } = req.params;
@@ -54,6 +55,7 @@ exports.validatePostUpdate = [
 	body('post.text', 'Text must not be empty.').trim().escape().notEmpty(),
 ];
 
+// Updates a blog post in the db at the request of the user.
 exports.blogUpdatePost = asyncHandler(async (req, res, next) => {
 	// Extract the validation errors from a request.
 	const errors = validationResult(req);
@@ -90,6 +92,7 @@ exports.blogUpdatePost = asyncHandler(async (req, res, next) => {
 	}
 });
 
+// Gets the details of a post.
 exports.postDetailGet = asyncHandler(async (req, res, next) => {
 	const post = await Post.findById(req.params.id)
 		.populate('user')
