@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+// Represents the logo at the top of the page.
 function Logo() {
 	return (
 		<div className="logo">

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import api from '../../axiosConfig';
 import Posts from '../Posts/Posts';
 
+// Represents the home page that displays all the published posts.
 function HomePage() {
 	const [posts, setPosts] = useState([]);
 

@@ -5,6 +5,7 @@ import FormMessage from '../FormMessage/FormMessage';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
+// Represents the sign up page for users to store their credentials on the db.
 function SignUpPage() {
 	const [message, setMessage] = useState([]);
 	const [username, setUsername] = useState('');
@@ -20,6 +21,7 @@ function SignUpPage() {
 		document.title = 'Sign Up';
 	});
 
+	// Clears the form after the credentials have been stored successfully.
 	const clearForm = () => {
 		const formInputs = document.querySelectorAll('form input');
 		formInputs.forEach((input) => {
@@ -27,12 +29,15 @@ function SignUpPage() {
 		});
 	};
 
+	/* Reached when the user's credentials have been stored successfully. 
+	Displays a success message and redirects the user to log in. */
 	const handleSuccess = (message) => {
 		clearForm();
 		setMessage(message);
 		setTimeout(() => navigate('/log-in'), 3000);
 	};
 
+	// Reached when the user submits their form. Attempts to store the credentials on the db.
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		try {
@@ -56,6 +61,7 @@ function SignUpPage() {
 		}
 	};
 
+	// Switches state variables to store information when an input in the form changes.
 	const handleChange = (event) => {
 		const { id, value } = event.target;
 

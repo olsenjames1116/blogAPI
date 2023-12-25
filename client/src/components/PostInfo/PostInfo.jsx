@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { commentImage } from '../../assets/images';
 import { DateTime } from 'luxon';
 
+// Represents a post on the home page or admin dashboard with the major details of a post.
 function PostInfo({ post }) {
 	return (
 		<div className="postInfo">

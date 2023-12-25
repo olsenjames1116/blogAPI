@@ -10,6 +10,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { makeAdmin } from '../../redux/state/isAdminSlice';
 import Cookies from 'universal-cookie';
 
+// Represents the page that the user accesses to log in.
 function LogInPage() {
 	const [message, setMessage] = useState([]);
 	const [username, setUsername] = useState('');
@@ -26,6 +27,7 @@ function LogInPage() {
 		document.title = 'Log In';
 	});
 
+	// Used to store the user's information when credentials have been authenticated successfully.
 	const handleSuccess = (isAdmin, accessToken, refreshToken, username) => {
 		if (isAdmin) {
 			dispatch(makeAdmin());
@@ -39,6 +41,7 @@ function LogInPage() {
 		navigate('/');
 	};
 
+	// Handles the submit action from the log in form. Sends the credentials to the server.
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		try {
@@ -59,6 +62,7 @@ function LogInPage() {
 		}
 	};
 
+	// Handles change from the log in form input and stores the values in state.
 	const handleChange = (event) => {
 		switch (event.target.id) {
 			case 'username':

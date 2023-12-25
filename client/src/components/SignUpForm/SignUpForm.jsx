@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// Represents the form for users to sign up and store their credentials on the db.
 function SignUpForm({ handleChange, handleSubmit }) {
 	return (
 		<form method="POST" action="/api/user/sign-up" onSubmit={handleSubmit}>

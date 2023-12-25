@@ -6,6 +6,7 @@ import api from '../../axiosConfig';
 import { removeAdmin } from '../../redux/state/isAdminSlice';
 import Cookies from 'universal-cookie';
 
+// Represents the links in the nav at the top of the page.
 function Links() {
 	const isLoggedIn = useSelector((state) => state.isLoggedIn.value);
 	const isAdmin = useSelector((state) => state.isAdmin.value);
@@ -14,6 +15,7 @@ function Links() {
 
 	const cookies = new Cookies();
 
+	// Logs the user out by changing the state and removing information from memory.
 	const logOutUser = async () => {
 		try {
 			await api.get('/user/log-out');

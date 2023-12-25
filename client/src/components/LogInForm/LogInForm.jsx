@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// Represents the form that the user uses to log in.
 function LogInForm({ handleChange, handleSubmit }) {
 	return (
 		<form method="POST" action="/api/user/log-in" onSubmit={handleSubmit}>

@@ -5,9 +5,11 @@ import AdminControls from '../AdminControls/AdminControls';
 import PostInfo from '../PostInfo/PostInfo';
 import { useSelector } from 'react-redux';
 
+// Represents the list of posts on the admin dashboard or home page.
 function Posts({ posts, fetchData, adminPage }) {
 	const isAdmin = useSelector((state) => state.isAdmin.value);
 
+	// Deletes a post in the db from the admin dashboard.
 	const deletePost = async (post) => {
 		try {
 			await api.delete(`/post/${post._id}`, {
@@ -19,6 +21,7 @@ function Posts({ posts, fetchData, adminPage }) {
 		}
 	};
 
+	// Publishes a post to be viewed by all users from the admin dashboard.
 	const publishPost = async (post) => {
 		try {
 			await api.put(`/post/${post._id}`, {
@@ -30,6 +33,7 @@ function Posts({ posts, fetchData, adminPage }) {
 		}
 	};
 
+	// Unpublishes a post to be removed from view by all users from the admin dashboard.
 	const unpublishPost = async (post) => {
 		try {
 			await api.put(`/post/${post._id}`, {

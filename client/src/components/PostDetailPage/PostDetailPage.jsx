@@ -1,23 +1,19 @@
 import api from '../../axiosConfig';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { decode } from 'html-entities';
-import parse from 'html-react-parser';
-import { useSelector } from 'react-redux';
-import { DateTime } from 'luxon';
-import { userImage } from '../../assets/images';
-import FormMessage from '../FormMessage/FormMessage';
+import PostDetail from '../PostDetail/PostDetail';
+import CommentSection from '../CommentSection/CommentSection';
 
+// Represents the detail page for each post.
 function PostDetailPage() {
 	const [post, setPost] = useState();
 	const [text, setText] = useState();
 	const [message, setMessage] = useState([]);
 	const [comments, setComments] = useState(null);
 
-	const isLoggedIn = useSelector((state) => state.isLoggedIn.value);
-
 	const { id } = useParams();
 
+	// Sorts comments from newest to oldest.
 	const sortComments = (comments) => {
 		return comments.sort((a, b) => {
 			if (a.timestamp > b.timestamp) {
@@ -27,6 +23,7 @@ function PostDetailPage() {
 		});
 	};
 
+	// Fetch the selected post from the db.
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
@@ -42,10 +39,12 @@ function PostDetailPage() {
 		fetchData();
 	}, []);
 
+	// Reached when a change has been made to comments to store in state.
 	const handleChange = (event) => {
 		setText(event.target.value);
 	};
 
+	// Submits the comment to the db.
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		try {
@@ -70,53 +69,15 @@ function PostDetailPage() {
 		<main className="postDetail">
 			<div className="content">
 				{post && (
-					<>
-						<div>
-							<img src={post.image.file} />
-						</div>
-						<h2>{post.title}</h2>
-						{parse(decode(post.text))}
-						<div className="comments">
-							{isLoggedIn && (
-								<div>
-									<h3>Share your thoughts:</h3>
-									<span>{comments.length} Comments</span>
-									<form
-										method="POST"
-										action="/api/comment/create"
-										onSubmit={handleSubmit}
-									>
-										<textarea
-											id="text"
-											name="text"
-											placeholder="What's on your mind?"
-											onChange={handleChange}
-										/>
-										<FormMessage message={message} />
-										<button type="submit">Submit</button>
-									</form>
-								</div>
-							)}
-							<ul>
-								{comments.map((comment) => {
-									return (
-										<li key={comment._id}>
-											<div>
-												<img src={userImage} />
-											</div>
-											<h4>{comment.user.username}</h4>
-											<span>
-												{DateTime.fromISO(comment.timestamp).toLocaleString(
-													DateTime.DATE_MED
-												)}
-											</span>
-											<p>{comment.text}</p>
-										</li>
-									);
-								})}
-							</ul>
-						</div>
-					</>
+					<div>
+						<PostDetail post={post} />
+						<CommentSection
+							comments={comments}
+							message={message}
+							handleChange={handleChange}
+							handleSubmit={handleSubmit}
+						/>
+					</div>
 				)}
 			</div>
 		</main>
