@@ -5,6 +5,8 @@ import { logOut } from '../../redux/state/isLoggedInSlice';
 import api from '../../axiosConfig';
 import { removeAdmin } from '../../redux/state/isAdminSlice';
 import Cookies from 'universal-cookie';
+import { adminImage, logOutImage } from '../../assets/images';
+import styles from './Links.module.css';
 
 // Represents the links in the nav at the top of the page.
 function Links() {
@@ -33,7 +35,7 @@ function Links() {
 	};
 
 	return (
-		<ul className="links">
+		<ul className={styles.links}>
 			{!isLoggedIn && (
 				<li>
 					<Link to="/log-in">Log In</Link>
@@ -45,14 +47,16 @@ function Links() {
 				</li>
 			)}
 			{isAdmin && (
-				<li>
-					<Link to="/admin-dashboard">Admin</Link>
+				<li className={styles.admin}>
+					<Link to="/admin-dashboard">
+						<img src={adminImage} alt="link to admin page" />
+					</Link>
 				</li>
 			)}
 			{isLoggedIn && (
-				<li>
+				<li className={styles.logOut}>
 					<Link to="/" onClick={logOutUser}>
-						Log Out
+						<img src={logOutImage} alt="link to log user out" />
 					</Link>
 				</li>
 			)}

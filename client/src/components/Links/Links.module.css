@@ -1,0 +1,49 @@
+.links {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	gap: 20px;
+
+	&& > li > a {
+		text-decoration: none;
+		color: var(--lightest);
+	}
+
+	&& > li > a > img {
+		height: 25px;
+		width: auto;
+	}
+}
+
+.admin {
+	filter: invert(79%) sepia(9%) saturate(407%) hue-rotate(348deg)
+		brightness(104%) contrast(90%);
+
+	&& :hover::after {
+		content: 'Admin';
+		background-color: black;
+		color: white;
+		border: 1px solid white;
+		padding: 2px;
+		position: absolute;
+		top: 100%;
+		left: -30%;
+	}
+}
+
+.logOut {
+	filter: invert(79%) sepia(9%) saturate(407%) hue-rotate(348deg)
+		brightness(104%) contrast(90%);
+
+	&& :hover::after {
+		content: 'Log Out';
+		background-color: black;
+		border: 1px solid white;
+		color: white;
+		padding: 2px;
+		position: absolute;
+		top: 100%;
+		left: 0;
+	}
+}
