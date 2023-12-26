@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { logIn } from './redux/state/isLoggedInSlice';
 import { makeAdmin } from './redux/state/isAdminSlice';
+import './App.css';
 
 function App() {
 	const dispatch = useDispatch();

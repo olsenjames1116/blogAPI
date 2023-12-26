@@ -1,8 +1,3 @@
-main {
-	background-color: var(--lighter);
-	flex-grow: 1;
-}
-
-div.content {
+.content {
 	background-color: var(--lightest);
 }
