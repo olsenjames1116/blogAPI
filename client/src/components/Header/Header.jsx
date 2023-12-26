@@ -1,6 +1,7 @@
 import React from 'react';
 import Logo from '../Logo/Logo';
 import Links from '../Links/Links';
+import './Header.module.css';
 
 // Represents the header at the top of each page.
 function Header() {
