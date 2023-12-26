@@ -1,0 +1,8 @@
+main {
+	background-color: var(--lighter);
+	flex-grow: 1;
+}
+
+div.content {
+	background-color: var(--lightest);
+}

@@ -4,6 +4,7 @@ import api from '../../axiosConfig';
 import AdminControls from '../AdminControls/AdminControls';
 import PostInfo from '../PostInfo/PostInfo';
 import { useSelector } from 'react-redux';
+import styles from './Posts.module.css';
 
 // Represents the list of posts on the admin dashboard or home page.
 function Posts({ posts, fetchData, adminPage }) {
@@ -46,10 +47,10 @@ function Posts({ posts, fetchData, adminPage }) {
 	};
 
 	return (
-		<ul className="posts">
-			{posts.map((post) => {
+		<ul className={styles.posts}>
+			{posts.map((post, index) => {
 				return (
-					<li key={post._id}>
+					<li className={styles.post} key={post._id}>
 						<PostInfo post={post} />
 						{isAdmin && adminPage && (
 							<AdminControls
@@ -59,6 +60,7 @@ function Posts({ posts, fetchData, adminPage }) {
 								unpublishPost={unpublishPost}
 							/>
 						)}
+						{index !== posts.length - 1 && <hr />}
 					</li>
 				);
 			})}

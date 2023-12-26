@@ -6,10 +6,16 @@
 	--lightest: #dcccbd;
 }
 
-* {
+/* * {
 	border: 1px solid black;
-}
+} */
 
 body {
 	margin: 0;
+}
+
+div#root {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
 }

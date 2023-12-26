@@ -1,0 +1,18 @@
+.posts {
+	margin: 40px;
+	padding: 20px;
+	list-style-type: none;
+	display: flex;
+	flex-direction: column;
+	background-color: var(--lightest);
+}
+
+.post {
+	display: grid;
+
+	&& > hr {
+		width: 90%;
+		height: 1px;
+		background-color: black;
+	}
+}
