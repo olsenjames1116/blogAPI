@@ -1,0 +1,15 @@
+:root {
+	--darkest: #021825;
+	--darker: #434a54;
+	--medium: #b14c32;
+	--lighter: #d4996f;
+	--lightest: #dcccbd;
+}
+
+* {
+	border: 1px solid black;
+}
+
+body {
+	margin: 0;
+}
