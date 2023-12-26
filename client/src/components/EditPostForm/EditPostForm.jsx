@@ -51,6 +51,7 @@ function EditPostForm({
 							Create & Publish
 						</button>
 						<button type="submit" onClick={handleUnpublish}>
+							{/* eslint-disable-next-line react/no-unescaped-entities*/}
 							Create & Don't Publish
 						</button>
 					</div>
@@ -60,6 +61,7 @@ function EditPostForm({
 							Update & Publish
 						</button>
 						<button type="submit" onClick={handleUnpublish}>
+							{/* eslint-disable-next-line react/no-unescaped-entities*/}
 							Update & Don't Publish
 						</button>
 					</div>

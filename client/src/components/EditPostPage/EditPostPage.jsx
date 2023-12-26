@@ -37,6 +37,7 @@ function EditPostPage() {
 		document.title = 'Edit Post';
 
 		id && loadData();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	// Removes the image input and dynamic image display if the user selects to remove it.
