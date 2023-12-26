@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import api from '../../axiosConfig';
 import Posts from '../Posts/Posts';
 import Loading from '../Loading/Loading';
-import './HomePage.module.css';
 
 // Represents the home page that displays all the published posts.
 function HomePage() {
