@@ -4,6 +4,7 @@
 	padding: 0;
 	display: flex;
 	gap: 20px;
+	position: relative;
 
 	&& > li > a {
 		text-decoration: none;
@@ -11,39 +12,53 @@
 	}
 
 	&& > li > a > img {
+		filter: invert(79%) sepia(9%) saturate(407%) hue-rotate(348deg)
+			brightness(104%) contrast(90%);
 		height: 25px;
 		width: auto;
 	}
 }
 
-.admin {
-	filter: invert(79%) sepia(9%) saturate(407%) hue-rotate(348deg)
-		brightness(104%) contrast(90%);
-
-	&& :hover::after {
-		content: 'Admin';
-		background-color: black;
-		color: white;
-		border: 1px solid white;
-		padding: 2px;
-		position: absolute;
-		top: 100%;
-		left: -30%;
-	}
+.logIn:hover::after {
+	content: 'Log In';
+	background-color: black;
+	color: white;
+	border: 1px solid white;
+	padding: 2px;
+	position: absolute;
+	top: 100%;
+	left: -15%;
 }
 
-.logOut {
-	filter: invert(79%) sepia(9%) saturate(407%) hue-rotate(348deg)
-		brightness(104%) contrast(90%);
+.signUp:hover::after {
+	content: 'Sign Up';
+	background-color: black;
+	color: white;
+	border: 1px solid white;
+	padding: 2px;
+	position: absolute;
+	top: 100%;
+	right: -20%;
+}
 
-	&& :hover::after {
-		content: 'Log Out';
-		background-color: black;
-		border: 1px solid white;
-		color: white;
-		padding: 2px;
-		position: absolute;
-		top: 100%;
-		left: 0;
-	}
+.admin:hover::after {
+	content: 'Admin';
+	background-color: black;
+	color: white;
+	border: 1px solid white;
+	padding: 2px;
+	position: absolute;
+	top: 100%;
+	left: -15%;
+}
+
+.logOut:hover::after {
+	content: 'Log Out';
+	background-color: black;
+	border: 1px solid white;
+	color: white;
+	padding: 2px;
+	position: absolute;
+	top: 100%;
+	right: -20%;
 }
