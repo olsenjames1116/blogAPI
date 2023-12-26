@@ -1,0 +1,14 @@
+.logo {
+	&& > a {
+		color: var(--lightest);
+		text-decoration: none;
+		display: flex;
+		align-items: center;
+		gap: 5px;
+		font-size: 2rem;
+
+		&& > img {
+			transform: rotate(-45deg);
+		}
+	}
+}
