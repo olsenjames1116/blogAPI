@@ -30,6 +30,7 @@ function PostDetailPage() {
 				const response = await api.get(`/post/${id}`);
 				const { post } = response.data;
 				setPost(post);
+				document.title = post.title;
 				setComments(sortComments(post.comments));
 			} catch (err) {
 				console.log(err);
@@ -37,6 +38,7 @@ function PostDetailPage() {
 		};
 
 		fetchData();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	// Reached when a change has been made to comments to store in state.
