@@ -4,7 +4,14 @@ import TinyMCE from '../TinyMCE/TinyMCE';
 import { useNavigate } from 'react-router-dom';
 
 // Represents the form that is presented to admins to create and edit posts.
-function EditPostForm({ post, handleCreate, handleUpdate, handleChange }) {
+function EditPostForm({
+	post,
+	handleCreate,
+	handleUpdate,
+	handleChange,
+	handlePublish,
+	handleUnpublish,
+}) {
 	const navigate = useNavigate();
 
 	const cancelEditing = (event) => {
@@ -38,7 +45,25 @@ function EditPostForm({ post, handleCreate, handleUpdate, handleChange }) {
 				<TinyMCE handleChange={handleChange} post={post} />
 			</div>
 			<div>
-				<button type="submit">Submit</button>
+				{!post ? (
+					<div className="create">
+						<button type="submit" onClick={handlePublish}>
+							Create & Publish
+						</button>
+						<button type="submit" onClick={handleUnpublish}>
+							Create & Don't Publish
+						</button>
+					</div>
+				) : (
+					<div className="update">
+						<button type="submit" onClick={handlePublish}>
+							Update & Publish
+						</button>
+						<button type="submit" onClick={handleUnpublish}>
+							Update & Don't Publish
+						</button>
+					</div>
+				)}
 				<button type="submit" onClick={cancelEditing}>
 					Cancel
 				</button>
@@ -51,6 +76,8 @@ EditPostForm.propTypes = {
 	handleCreate: PropTypes.func,
 	handleUpdate: PropTypes.func,
 	handleChange: PropTypes.func,
+	handlePublish: PropTypes.func,
+	handleUnpublish: PropTypes.func,
 	post: PropTypes.object,
 };
 

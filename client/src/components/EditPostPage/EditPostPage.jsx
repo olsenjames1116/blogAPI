@@ -13,6 +13,7 @@ function EditPostPage() {
 	const [imageBase64, setImageBase64] = useState(null);
 	const [title, setTitle] = useState('');
 	const [text, setText] = useState('');
+	const [published, setPublished] = useState(false);
 	const [post, setPost] = useState();
 
 	const isAdmin = useSelector((state) => state.isAdmin.value);
@@ -44,6 +45,14 @@ function EditPostPage() {
 		document.querySelector('input#image').value = null;
 	};
 
+	const handlePublish = () => {
+		setPublished(true);
+	};
+
+	const handleUnpublish = () => {
+		setPublished(false);
+	};
+
 	// Creates a new post in the db.
 	const handleCreate = async (event) => {
 		event.preventDefault();
@@ -52,6 +61,7 @@ function EditPostPage() {
 				image: imageBase64,
 				title: title,
 				text: text,
+				published: published,
 			});
 			const { id } = response.data;
 			navigate(`/post/${id}`);
@@ -73,18 +83,21 @@ function EditPostPage() {
 		// If the user does not input any new data, store the existing data.
 		const updatedTitle = !title ? post.title : title;
 		let updatedText;
-		console.log(post.text);
 		if (!text) {
 			updatedText = post.text;
 			updatedText = updatedText.substring(9, updatedText.length - 15);
-			console.log(updatedText);
 		} else {
 			updatedText = text;
 		}
 
 		try {
 			const response = await api.put(`/post/${post._id}`, {
-				post: { ...post, title: updatedTitle, text: updatedText },
+				post: {
+					...post,
+					title: updatedTitle,
+					text: updatedText,
+					published: published,
+				},
 			});
 			const { id } = response.data;
 			navigate(`/post/${id}`);
@@ -148,6 +161,8 @@ function EditPostPage() {
 					handleCreate={handleCreate}
 					handleUpdate={handleUpdate}
 					handleChange={handleChange}
+					handlePublish={handlePublish}
+					handleUnpublish={handleUnpublish}
 				/>
 			</div>
 		</main>

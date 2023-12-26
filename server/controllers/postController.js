@@ -128,7 +128,7 @@ exports.blogCreatePost = asyncHandler(async (req, res, next) => {
 	// Extract the validation errors from the request.
 	const errors = validationResult(req);
 
-	const { image, title, text } = req.body;
+	const { image, title, text, published } = req.body;
 	const newImage = new Image({
 		file: image,
 	});
@@ -136,6 +136,7 @@ exports.blogCreatePost = asyncHandler(async (req, res, next) => {
 		title: title,
 		text: text,
 		timestamp: Date.now(),
+		published: published,
 		user: req.user._id,
 	});
 
