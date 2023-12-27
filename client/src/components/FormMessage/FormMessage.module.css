@@ -1,0 +1,9 @@
+.formMessage {
+	color: #dc3545;
+}
+
+.errors {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}

@@ -60,6 +60,8 @@ function PostDetailPage() {
 			const { comments } = response.data;
 			setComments(sortComments(comments));
 			document.querySelector('textarea#text').value = '';
+			setText('');
+			setMessage([]);
 		} catch (err) {
 			const { status } = err.response;
 			if (status === 400) {

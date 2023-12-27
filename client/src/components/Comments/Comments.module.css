@@ -1,0 +1,41 @@
+.comments {
+	background-color: var(--lightest);
+	margin: 0;
+	padding: 20px;
+	list-style-type: none;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	border-radius: 5px;
+	color: var(--darkest);
+}
+
+.comment {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+	background-color: rgb(206, 206, 206);
+	border: 1px solid black;
+	padding: 10px;
+}
+
+.imageContainer {
+	display: flex;
+
+	&& > img {
+		width: 50px;
+		height: auto;
+	}
+}
+
+.username {
+	margin: 0;
+}
+
+.date {
+	color: var(--darker);
+}
+
+.text {
+	margin: 0;
+}

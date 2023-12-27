@@ -1,5 +1,9 @@
 .content {
 	margin: 40px;
-	padding: 40px;
-	background-color: var(--lightest);
+}
+
+.post {
+	display: flex;
+	flex-direction: column;
+	gap: 50px;
 }
