@@ -1,0 +1,4 @@
+.sources > a {
+	text-decoration: none;
+	color: var(--lighter);
+}
