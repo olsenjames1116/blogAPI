@@ -4,6 +4,7 @@ import SignUpForm from '../SignUpForm/SignUpForm';
 import FormMessage from '../FormMessage/FormMessage';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import styles from './SignUpPage.module.css';
 
 // Represents the sign up page for users to store their credentials on the db.
 function SignUpPage() {
@@ -81,10 +82,10 @@ function SignUpPage() {
 	};
 
 	return (
-		<main className="signUp">
+		<main className={styles.signUp}>
 			{isLoggedIn && <Navigate to="/" replace />}
-			<div className="content">
-				<h2>Sign Up</h2>
+			<div className={styles.content}>
+				<h2 className={styles.title}>Sign Up</h2>
 				<SignUpForm handleChange={handleChange} handleSubmit={handleSubmit} />
 				<FormMessage message={message} status={status} />
 			</div>
