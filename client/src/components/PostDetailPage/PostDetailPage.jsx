@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import PostDetail from '../PostDetail/PostDetail';
 import CommentSection from '../CommentSection/CommentSection';
+import styles from './PostDetailPage.module.css';
+import Loading from '../Loading/Loading';
 
 // Represents the detail page for each post.
 function PostDetailPage() {
@@ -10,6 +12,7 @@ function PostDetailPage() {
 	const [text, setText] = useState();
 	const [message, setMessage] = useState([]);
 	const [comments, setComments] = useState(null);
+	const [isLoading, setIsLoading] = useState(true);
 
 	const { id } = useParams();
 
@@ -28,6 +31,7 @@ function PostDetailPage() {
 		const fetchData = async () => {
 			try {
 				const response = await api.get(`/post/${id}`);
+				setIsLoading(false);
 				const { post } = response.data;
 				setPost(post);
 				document.title = post.title;
@@ -69,9 +73,10 @@ function PostDetailPage() {
 
 	return (
 		<main className="postDetail">
-			<div className="content">
+			<div className={styles.content}>
+				{isLoading && <Loading />}
 				{post && (
-					<div>
+					<div className={styles.post}>
 						<PostDetail post={post} />
 						<CommentSection
 							comments={comments}

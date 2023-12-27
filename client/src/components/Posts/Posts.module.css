@@ -20,10 +20,6 @@
 	padding-left: 20px;
 	padding-right: 20px;
 
-	&&:hover {
-		filter: contrast(50%);
-	}
-
 	&& > hr {
 		width: 90%;
 		height: 1px;
