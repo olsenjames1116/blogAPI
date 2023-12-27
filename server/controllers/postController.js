@@ -1,5 +1,6 @@
 const Post = require('../models/post');
 const Image = require('../models/image');
+const Comment = require('../models/comment');
 const { body, validationResult } = require('express-validator');
 const asyncHandler = require('express-async-handler');
 
@@ -38,6 +39,10 @@ exports.postDelete = asyncHandler(async (req, res, next) => {
 	const { id } = req.params;
 
 	// Delete object.
+	const post = await Post.findOne({ _id: id });
+	await Image.deleteOne({ _id: post.image });
+	const _ids = post.comments;
+	await Comment.deleteMany({ _id: { $in: _ids } });
 	await Post.findByIdAndDelete(id);
 	res.sendStatus(202);
 });
