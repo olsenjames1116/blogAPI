@@ -1,0 +1,32 @@
+.logInForm {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 20px;
+	width: 50%;
+}
+
+.formField {
+	display: flex;
+	flex-direction: column;
+	font-size: 1.3rem;
+	width: 100%;
+
+	&& > input {
+		font-size: 1.3rem;
+		height: 1.5rem;
+	}
+}
+
+.create {
+	background-color: rgb(22, 135, 22);
+	color: white;
+	border: 0;
+	font-size: 1.2rem;
+	border-radius: 3px;
+
+	&&:hover,
+	&&:focus {
+		filter: contrast(70%);
+	}
+}

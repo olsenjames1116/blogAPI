@@ -1,11 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styles from './LogInForm.module.css';
 
 // Represents the form that the user uses to log in.
 function LogInForm({ handleChange, handleSubmit }) {
 	return (
-		<form method="POST" action="/api/user/log-in" onSubmit={handleSubmit}>
-			<div>
+		<form
+			className={styles.logInForm}
+			method="POST"
+			action="/api/user/log-in"
+			onSubmit={handleSubmit}
+		>
+			<div className={styles.formField}>
 				<label htmlFor="username">Username:</label>
 				<input
 					id="username"
@@ -14,7 +20,7 @@ function LogInForm({ handleChange, handleSubmit }) {
 					onChange={handleChange}
 				/>
 			</div>
-			<div>
+			<div className={styles.formField}>
 				<label htmlFor="password">Password:</label>
 				<input
 					id="password"
@@ -23,7 +29,9 @@ function LogInForm({ handleChange, handleSubmit }) {
 					onChange={handleChange}
 				/>
 			</div>
-			<button type="submit">Submit</button>
+			<button className={styles.create} type="submit">
+				Submit
+			</button>
 		</form>
 	);
 }

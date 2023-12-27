@@ -9,6 +9,7 @@ import { logIn } from '../../redux/state/isLoggedInSlice';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { makeAdmin } from '../../redux/state/isAdminSlice';
 import Cookies from 'universal-cookie';
+import styles from './LogInPage.module.css';
 
 // Represents the page that the user accesses to log in.
 function LogInPage() {
@@ -77,10 +78,10 @@ function LogInPage() {
 	};
 
 	return (
-		<main className="logIn">
+		<main className={styles.logIn}>
 			{isLoggedIn && <Navigate to="/" replace />}
-			<div className="content">
-				<h2>Log In</h2>
+			<div className={styles.content}>
+				<h2 className={styles.title}>Log In</h2>
 				<LogInForm handleChange={handleChange} handleSubmit={handleSubmit} />
 				<FormMessage message={message} />
 			</div>

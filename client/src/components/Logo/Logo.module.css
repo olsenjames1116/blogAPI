@@ -6,9 +6,22 @@
 		align-items: center;
 		gap: 5px;
 		font-size: 2rem;
+		transition-property: transform;
+		transition-duration: 1s;
+
+		&&:hover,
+		&&:focus {
+			transform: scale(1.1);
+		}
 
 		&& > img {
 			transform: rotate(-45deg);
+
+			&&:hover {
+				transform: rotate(-90deg);
+				transition-property: transform;
+				transition-duration: 500ms;
+			}
 		}
 	}
 }
