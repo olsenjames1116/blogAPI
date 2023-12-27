@@ -5,6 +5,7 @@ import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import EditPostForm from '../EditPostForm/EditPostForm';
 import DynamicImageDisplay from '../DynamicImageDisplay/DynamicImageDisplay';
 import FormMessage from '../FormMessage/FormMessage';
+import styles from './EditPostPage.module.css';
 
 // Represents the page where an admin can edit existing and create new posts.
 function EditPostPage() {
@@ -149,10 +150,10 @@ function EditPostPage() {
 	};
 
 	return (
-		<main className="editPost">
+		<main className={styles.editPost}>
 			{!isAdmin && <Navigate to="/" replace />}
-			<div className="content">
-				<h2>Edit Post</h2>
+			<div className={styles.content}>
+				<h2 className={styles.title}>Edit Post</h2>
 				<FormMessage message={message} />
 				{image && (
 					<DynamicImageDisplay image={image} removeImage={removeImage} />

@@ -1,0 +1,81 @@
+.editPostForm {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 20px;
+	width: 100%;
+
+	&& > div {
+		display: flex;
+		flex-direction: column;
+	}
+}
+
+.formField {
+	width: 50%;
+}
+
+.imageContainer {
+	display: flex;
+	font-size: 1.3rem;
+
+	&& > input {
+		align-self: center;
+		font-size: 1rem;
+	}
+}
+
+.title {
+	font-size: 1.3rem;
+
+	&& > input {
+		font-size: 1.3rem;
+		height: 1.5rem;
+	}
+}
+
+.textEditor {
+	width: 100%;
+}
+
+.buttonContainer {
+	width: 75%;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+
+	&& button {
+		font-size: 1rem;
+		border: 0;
+		border-radius: 3px;
+
+		&&:hover,
+		&&:focus {
+			filter: contrast(70%);
+		}
+	}
+}
+
+.create {
+	display: flex;
+	justify-content: space-between;
+
+	&& > button {
+		width: 40%;
+	}
+
+	&& > button:first-child {
+		background-color: var(--medium);
+		color: white;
+	}
+
+	&& > button:nth-child(2) {
+		background-color: var(--darker);
+		color: white;
+	}
+}
+
+.cancel {
+	align-self: center;
+	width: 30%;
+}
