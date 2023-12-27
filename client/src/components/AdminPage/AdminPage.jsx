@@ -5,6 +5,7 @@ import Posts from '../Posts/Posts';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import Loading from '../Loading/Loading';
+import styles from './AdminPage.module.css';
 
 // Represents the admin dashboard for admins.
 function AdminPage() {
@@ -34,10 +35,10 @@ function AdminPage() {
 	return (
 		<main className="admin">
 			{!isAdmin && <Navigate to="/" replace />}
-			<div className="content">
-				<h2>Admin Dashboard</h2>
+			<div className={styles.content}>
+				<h2 className={styles.title}>Admin Dashboard</h2>
 				<Link to="/edit-post">
-					<button>+ New Post</button>
+					<button className={styles.newButton}>+ New Post</button>
 				</Link>
 				{isLoading && <Loading />}
 				<Posts posts={posts} fetchData={fetchData} adminPage={true} />
