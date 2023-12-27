@@ -1,0 +1,31 @@
+.adminControls {
+	display: flex;
+	justify-content: space-evenly;
+
+	&& > button,
+	&& > a {
+		font-size: 1rem;
+		width: 20%;
+		border: 0;
+		border-radius: 3px;
+
+		&&:hover,
+		&&:focus {
+			filter: contrast(70%);
+		}
+	}
+}
+
+.edit {
+	font-size: 1rem;
+	width: 100%;
+	background-color: var(--medium);
+	color: white;
+	border: 0;
+	border-radius: 3px;
+}
+
+.delete {
+	background-color: #dc3545;
+	color: white;
+}
