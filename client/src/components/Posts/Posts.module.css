@@ -1,14 +1,28 @@
 .posts {
 	margin: 40px;
-	padding: 20px;
+	padding: 0;
 	list-style-type: none;
 	display: flex;
 	flex-direction: column;
 	background-color: var(--lightest);
 }
 
+.post:first-child {
+	padding-top: 20px;
+}
+
+.post:last-child {
+	padding-bottom: 20px;
+}
+
 .post {
 	display: grid;
+	padding-left: 20px;
+	padding-right: 20px;
+
+	&&:hover {
+		filter: contrast(50%);
+	}
 
 	&& > hr {
 		width: 90%;
