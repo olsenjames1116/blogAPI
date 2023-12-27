@@ -1,0 +1,8 @@
+.authorCredit > a {
+	text-decoration: none;
+	color: var(--lighter);
+
+	&&:hover {
+		filter: contrast(70%);
+	}
+}
