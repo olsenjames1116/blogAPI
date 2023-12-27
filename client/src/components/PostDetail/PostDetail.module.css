@@ -1,0 +1,25 @@
+.detail {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.title {
+	margin: 0;
+	font-size: 2rem;
+}
+
+.imageContainer {
+	display: flex;
+	justify-content: center;
+	flex-grow: 1;
+
+	&& > img {
+		min-height: 400px;
+		width: auto;
+	}
+}
+
+.detail > p {
+	margin: 0;
+}
