@@ -5,6 +5,7 @@
 	display: flex;
 	flex-direction: column;
 	background-color: var(--lightest);
+	box-shadow: 0 0 10px gray;
 }
 
 .post:first-child {
