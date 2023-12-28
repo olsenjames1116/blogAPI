@@ -42,6 +42,7 @@ app.use(
 	cors({
 		origin: [`${process.env.FRONT_URL}`, 'http://localhost:5173'],
 		credentials: true,
+		exposedHeaders: ['set-cookie'],
 	})
 );
 app.use(logger('dev'));
