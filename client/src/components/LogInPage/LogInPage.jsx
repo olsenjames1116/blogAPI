@@ -26,13 +26,12 @@ function LogInPage() {
 	});
 
 	// Used to store the user's information when credentials have been authenticated successfully.
-	const handleSuccess = (isAdmin, accessToken, username) => {
+	const handleSuccess = (isAdmin, accessToken) => {
 		if (isAdmin) {
 			dispatch(makeAdmin());
 			localStorage.setItem('isAdmin', true);
 		}
 		localStorage.setItem('accessToken', accessToken);
-		localStorage.setItem('username', username);
 		dispatch(logIn());
 		localStorage.setItem('isLoggedIn', true);
 		navigate('/');
@@ -47,7 +46,7 @@ function LogInPage() {
 				password: password,
 			});
 			const { isAdmin, accessToken } = response.data;
-			handleSuccess(isAdmin, accessToken, username);
+			handleSuccess(isAdmin, accessToken);
 		} catch (err) {
 			const { status } = err.response;
 			if (status === 401) {

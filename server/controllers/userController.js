@@ -6,7 +6,8 @@ const asyncHandler = require('express-async-handler');
 
 // Verify a user's access token.
 exports.verifyToken = (req, res, next) => {
-	const { accessToken } = req.cookies;
+	const bearer = req.headers.authorization;
+	const accessToken = bearer.split(' ')[1];
 	if (!accessToken) return res.sendStatus(401);
 
 	jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
@@ -19,7 +20,8 @@ exports.verifyToken = (req, res, next) => {
 
 // Verify a user is an admin.
 exports.verifyUserIsAdmin = (req, res, next) => {
-	const { accessToken } = req.cookies;
+	const bearer = req.headers.authorization;
+	const accessToken = bearer.split(' ')[1];
 	if (accessToken) {
 		jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
 			if (err) {
@@ -34,45 +36,6 @@ exports.verifyUserIsAdmin = (req, res, next) => {
 			}
 		});
 	}
-};
-
-// Verifies a user's refresh token when the access token fails.
-const verifyRefresh = (username, refreshToken) => {
-	try {
-		const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
-		return decoded.username === username;
-	} catch (err) {
-		return false;
-	}
-};
-
-// Verify a user's refresh token.
-exports.verifyRefreshToken = async (req, res, next) => {
-	const { username, refreshToken } = req.cookies;
-	if (!username) return res.sendStatus(403);
-
-	const isValid = verifyRefresh(username, refreshToken);
-
-	if (!isValid) {
-		return res.sendStatus(403);
-	}
-
-	const user = await User.findOne({ username: username });
-	const accessToken = jwt.sign(user.toJSON(), process.env.ACCESS_TOKEN_SECRET, {
-		expiresIn: '2m',
-	});
-	const newRefreshToken = jwt.sign(
-		user.toJSON(),
-		process.env.REFRESH_TOKEN_SECRET,
-		{
-			expiresIn: '10m',
-		}
-	);
-	res.status(200).json({
-		accessToken: accessToken,
-		refreshToken: newRefreshToken,
-		username: username,
-	});
 };
 
 // Validate and sanitize fields to create user.
@@ -167,7 +130,6 @@ exports.userLogInPost =
 		res.status(200).json({
 			isAdmin: user.isAdmin,
 			accessToken: accessToken,
-			username: username,
 		});
 	});
 
