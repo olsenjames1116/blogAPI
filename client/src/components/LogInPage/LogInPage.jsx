@@ -36,17 +36,14 @@ function LogInPage() {
 		}
 		cookies.set('accessToken', accessToken, {
 			path: '/',
-			secure: true,
 			sameSite: 'none',
 		});
 		cookies.set('refreshToken', refreshToken, {
 			path: '/',
-			secure: true,
 			sameSite: 'none',
 		});
 		cookies.set('username', username, {
 			path: '/',
-			secure: true,
 			sameSite: 'none',
 		});
 		dispatch(logIn());
