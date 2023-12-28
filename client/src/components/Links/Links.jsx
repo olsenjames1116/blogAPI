@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { logOut } from '../../redux/state/isLoggedInSlice';
 import api from '../../axiosConfig';
 import { removeAdmin } from '../../redux/state/isAdminSlice';
-import Cookies from 'universal-cookie';
+// import Cookies from 'universal-cookie';
 import {
 	adminImage,
 	logOutImage,
@@ -20,7 +20,7 @@ function Links() {
 
 	const dispatch = useDispatch();
 
-	const cookies = new Cookies();
+	// const cookies = new Cookies();
 
 	// Logs the user out by changing the state and removing information from memory.
 	const logOutUser = async () => {
@@ -32,9 +32,12 @@ function Links() {
 
 		localStorage.removeItem('isLoggedIn');
 		localStorage.removeItem('isAdmin');
-		cookies.remove('accessToken');
-		cookies.remove('refreshToken');
-		cookies.remove('username');
+		// cookies.remove('accessToken');
+		// cookies.remove('refreshToken');
+		// cookies.remove('username');
+		localStorage.removeItem('accessToken');
+		localStorage.removeItem('refreshToken');
+		localStorage.removeItem('username');
 		dispatch(logOut());
 		dispatch(removeAdmin());
 	};

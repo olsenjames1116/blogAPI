@@ -1,12 +1,29 @@
 import axios from 'axios';
-import Cookies from 'universal-cookie';
+// import Cookies from 'universal-cookie';
 
-const cookies = new Cookies();
+// const cookies = new Cookies();
+
+const baseUrl = import.meta.env.VITE_BACK_URL || 'http://localhost:4000/api';
 
 const api = axios.create({
-	baseURL: import.meta.env.VITE_BACK_URL || 'http://localhost:4000/api',
+	baseURL: baseUrl,
 	withCredentials: true,
 });
+
+api.interceptors.request.use(
+	function (config) {
+		config.headers = {
+			Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+			'Content-Type': 'application/json',
+			'Access-Control-Allow-Origin': 'http://localhost:5173',
+		};
+
+		return config;
+	},
+	function (error) {
+		return Promise.reject(error);
+	}
+);
 
 api.interceptors.response.use(
 	(response) => {
@@ -19,9 +36,12 @@ api.interceptors.response.use(
 			error.response.status === 403 &&
 			originalRequest.url === '/user/refresh'
 		) {
-			cookies.remove('accessToken');
-			cookies.remove('refreshToken');
-			cookies.remove('username');
+			// cookies.remove('accessToken');
+			// cookies.remove('refreshToken');
+			// cookies.remove('username');
+			localStorage.removeItem('accessToken');
+			localStorage.removeItem('refreshToken');
+			localStorage.removeItem('username');
 			localStorage.removeItem('isLoggedIn');
 			localStorage.removeItem('isAdmin');
 			document.location.href = '/';
@@ -31,11 +51,19 @@ api.interceptors.response.use(
 		if (error.response.status === 403 && !originalRequest._retry) {
 			originalRequest._retry = true;
 			try {
-				const response = await api.get('/user/refresh');
+				const response = await api.get('/user/refresh', {
+					params: {
+						username: username,
+						refreshToken: refreshToken,
+					},
+				});
 				const { accessToken, refreshToken, username } = response.data;
-				cookies.set('accessToken', accessToken);
-				cookies.set('refreshToken', refreshToken);
-				cookies.set('username', username);
+				// cookies.set('accessToken', accessToken);
+				// cookies.set('refreshToken', refreshToken);
+				// cookies.set('username', username);
+				localStorage.setItem('accessToken', accessToken);
+				localStorage.setItem('refreshToken', refreshToken);
+				localStorage.set('username', username);
 				return await api.get(originalRequest.url);
 			} catch {
 				return await api.get('/user/log-out');

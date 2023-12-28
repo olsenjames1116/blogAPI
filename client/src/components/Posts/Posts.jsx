@@ -48,22 +48,26 @@ function Posts({ posts, fetchData, adminPage }) {
 
 	return (
 		<ul className={styles.posts}>
-			{posts.map((post, index) => {
-				return (
-					<li className={styles.post} key={post._id}>
-						<PostInfo post={post} />
-						{isAdmin && adminPage && (
-							<AdminControls
-								post={post}
-								deletePost={deletePost}
-								publishPost={publishPost}
-								unpublishPost={unpublishPost}
-							/>
-						)}
-						{index !== posts.length - 1 && <hr />}
-					</li>
-				);
-			})}
+			{!posts ? (
+				<span>No posts available</span>
+			) : (
+				posts.map((post, index) => {
+					return (
+						<li className={styles.post} key={post._id}>
+							<PostInfo post={post} />
+							{isAdmin && adminPage && (
+								<AdminControls
+									post={post}
+									deletePost={deletePost}
+									publishPost={publishPost}
+									unpublishPost={unpublishPost}
+								/>
+							)}
+							{index !== posts.length - 1 && <hr />}
+						</li>
+					);
+				})
+			)}
 		</ul>
 	);
 }

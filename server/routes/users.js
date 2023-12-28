@@ -14,7 +14,7 @@ router.post(
 router.post('/log-in', userController.userLogInPost);
 
 // Get a new refresh token and access token for the user.
-router.get('/refresh', userController.verifyRefreshToken);
+router.post('/refresh', userController.verifyRefreshToken);
 
 // Remove token in cookies for the user on log out.
 router.get('/log-out', userController.clearToken);

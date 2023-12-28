@@ -6,7 +6,8 @@ const asyncHandler = require('express-async-handler');
 
 // Verify a user's access token.
 exports.verifyToken = (req, res, next) => {
-	const { accessToken } = req.cookies;
+	const bearer = req.headers.authorization;
+	const accessToken = bearer.split(' ')[1];
 	if (!accessToken) return res.sendStatus(401);
 
 	jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
@@ -19,7 +20,9 @@ exports.verifyToken = (req, res, next) => {
 
 // Verify a user is an admin.
 exports.verifyUserIsAdmin = (req, res, next) => {
-	const { accessToken } = req.cookies;
+	const bearer = req.headers.authorization;
+	console.log(req.headers);
+	const accessToken = bearer.split(' ')[1];
 	if (accessToken) {
 		jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
 			if (err) {
@@ -48,7 +51,8 @@ const verifyRefresh = (username, refreshToken) => {
 
 // Verify a user's refresh token.
 exports.verifyRefreshToken = async (req, res, next) => {
-	const { username, refreshToken } = req.cookies;
+	const { username, refreshToken } = req.params;
+	console.log(req.params);
 	if (!username) return res.sendStatus(403);
 
 	const isValid = verifyRefresh(username, refreshToken);
