@@ -161,19 +161,12 @@ exports.userLogInPost =
 		const accessToken = jwt.sign(
 			user.toJSON(),
 			process.env.ACCESS_TOKEN_SECRET,
-			{ expiresIn: '2m' }
-		);
-
-		const refreshToken = jwt.sign(
-			user.toJSON(),
-			process.env.REFRESH_TOKEN_SECRET,
-			{ expiresIn: '10m' }
+			{ expiresIn: '1d' }
 		);
 
 		res.status(200).json({
 			isAdmin: user.isAdmin,
 			accessToken: accessToken,
-			refreshToken: refreshToken,
 			username: username,
 		});
 	});

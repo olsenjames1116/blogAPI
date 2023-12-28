@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logIn } from '../../redux/state/isLoggedInSlice';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { makeAdmin } from '../../redux/state/isAdminSlice';
-import Cookies from 'universal-cookie';
 import styles from './LogInPage.module.css';
 
 // Represents the page that the user accesses to log in.
@@ -22,30 +21,18 @@ function LogInPage() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	const cookies = new Cookies();
-
 	useEffect(() => {
 		document.title = 'Log In';
 	});
 
 	// Used to store the user's information when credentials have been authenticated successfully.
-	const handleSuccess = (isAdmin, accessToken, refreshToken, username) => {
+	const handleSuccess = (isAdmin, accessToken, username) => {
 		if (isAdmin) {
 			dispatch(makeAdmin());
 			localStorage.setItem('isAdmin', true);
 		}
-		cookies.set('accessToken', accessToken, {
-			path: '/',
-			sameSite: 'none',
-		});
-		cookies.set('refreshToken', refreshToken, {
-			path: '/',
-			sameSite: 'none',
-		});
-		cookies.set('username', username, {
-			path: '/',
-			sameSite: 'none',
-		});
+		localStorage.setItem('accessToken', accessToken);
+		localStorage.setItem('username', username);
 		dispatch(logIn());
 		localStorage.setItem('isLoggedIn', true);
 		navigate('/');
@@ -59,8 +46,8 @@ function LogInPage() {
 				username: username,
 				password: password,
 			});
-			const { isAdmin, accessToken, refreshToken } = response.data;
-			handleSuccess(isAdmin, accessToken, refreshToken, username);
+			const { isAdmin, accessToken } = response.data;
+			handleSuccess(isAdmin, accessToken, username);
 		} catch (err) {
 			const { status } = err.response;
 			if (status === 401) {
