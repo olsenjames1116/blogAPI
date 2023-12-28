@@ -3,13 +3,14 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import CommentForm from '../CommentForm/CommentForm';
 import Comments from '../Comments/Comments';
+import styles from './CommentSection.module.css';
 
 // Represents the section to display the form for submitting comments and the list of comments.
 function CommentSection({ message, comments, handleChange, handleSubmit }) {
 	const isLoggedIn = useSelector((state) => state.isLoggedIn.value);
 
 	return (
-		<div className="comments">
+		<div className={styles.comments}>
 			{isLoggedIn && (
 				<CommentForm
 					message={message}
