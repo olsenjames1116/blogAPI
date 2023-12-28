@@ -15,6 +15,8 @@ const postsRouter = require('./routes/posts');
 const commentsRouter = require('./routes/comments');
 
 const app = express();
+app.set('trust proxy', 1);
+app.get('/ip', (request, response) => response.send(request.ip));
 
 // Set up mongoose connection.
 mongoose.set('strictQuery', false);
