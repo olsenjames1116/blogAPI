@@ -34,9 +34,21 @@ function LogInPage() {
 			dispatch(makeAdmin());
 			localStorage.setItem('isAdmin', true);
 		}
-		cookies.set('accessToken', accessToken);
-		cookies.set('refreshToken', refreshToken);
-		cookies.set('username', username);
+		cookies.set('accessToken', accessToken, {
+			path: '/',
+			secure: true,
+			sameSite: 'none',
+		});
+		cookies.set('refreshToken', refreshToken, {
+			path: '/',
+			secure: true,
+			sameSite: 'none',
+		});
+		cookies.set('username', username, {
+			path: '/',
+			secure: true,
+			sameSite: 'none',
+		});
 		dispatch(logIn());
 		localStorage.setItem('isLoggedIn', true);
 		navigate('/');
