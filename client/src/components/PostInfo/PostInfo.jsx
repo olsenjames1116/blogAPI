@@ -11,7 +11,7 @@ function PostInfo({ post }) {
 		<div className={styles.postInfo}>
 			<Link to={`/post/${post._id}`}>
 				<div className={styles.imageContainer}>
-					<img className={styles.postImage} src={post.image.file} />
+					<img className={styles.postImage} src={post.image} />
 				</div>
 				<h3 className={styles.title}>{post.title}</h3>
 				<div className={styles.infoContainer}>

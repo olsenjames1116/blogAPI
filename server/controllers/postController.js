@@ -3,12 +3,12 @@ const Image = require('../models/image');
 const Comment = require('../models/comment');
 const { body, validationResult } = require('express-validator');
 const asyncHandler = require('express-async-handler');
+const cloudinary = require('../utils/cloudinary');
 
 // Get all posts to display on the admin dashboard.
 exports.postListGet = asyncHandler(async (req, res, next) => {
 	const allPosts = await Post.find({})
 		.populate('user')
-		.populate('image')
 		.sort({ timestamp: -1 })
 		.exec();
 
@@ -21,10 +21,9 @@ exports.postListGet = asyncHandler(async (req, res, next) => {
 exports.publishedPostsGet = asyncHandler(async (req, res, next) => {
 	const publishedPosts = await Post.find(
 		{ published: true },
-		'title timestamp comments'
+		'title timestamp comments image'
 	)
 		.populate('user')
-		.populate('image')
 		.sort({ timestamp: -1 })
 		.exec();
 
@@ -40,7 +39,6 @@ exports.postDelete = asyncHandler(async (req, res, next) => {
 
 	// Delete object.
 	const post = await Post.findOne({ _id: id });
-	await Image.deleteOne({ _id: post.image });
 	const _ids = post.comments;
 	await Comment.deleteMany({ _id: { $in: _ids } });
 	await Post.findByIdAndDelete(id);
@@ -101,7 +99,6 @@ exports.blogUpdatePost = asyncHandler(async (req, res, next) => {
 exports.postDetailGet = asyncHandler(async (req, res, next) => {
 	const post = await Post.findById(req.params.id)
 		.populate('user')
-		.populate('image')
 		.populate({
 			path: 'comments',
 			populate: {
@@ -134,15 +131,19 @@ exports.blogCreatePost = asyncHandler(async (req, res, next) => {
 	const errors = validationResult(req);
 
 	const { image, title, text, published } = req.body;
-	const newImage = new Image({
-		file: image,
+
+	// Store the image in Cloudinary and retrieve the url.
+	const { url } = await cloudinary.uploader.upload(image, {
+		upload_preset: 'pubChairSports',
 	});
+
 	const post = new Post({
 		title: title,
 		text: text,
 		timestamp: Date.now(),
 		published: published,
 		user: req.user._id,
+		image: image,
 	});
 
 	if (!errors.isEmpty()) {
@@ -151,9 +152,7 @@ exports.blogCreatePost = asyncHandler(async (req, res, next) => {
 			message: errors.array(),
 		});
 	}
-	// Data from the form is valid. Save the image and post.
-	const savedImage = await newImage.save();
-	post.image = savedImage._id;
+	// Data from the form is valid. Save the post.
 	const { _id } = await post.save();
 	res.status(201).json({
 		id: _id,
