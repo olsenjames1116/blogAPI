@@ -47,8 +47,8 @@ exports.postDelete = asyncHandler(async (req, res, next) => {
 
 // Validate and sanitize data from the request.
 exports.validatePostUpdate = [
-	body('post.image').custom(({ file }) => {
-		if (!file.includes('image')) {
+	body('post.image').custom((image) => {
+		if (!image.includes('image')) {
 			throw new Error('File is not of type image.');
 		} else {
 			return true;
