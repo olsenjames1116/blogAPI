@@ -132,18 +132,12 @@ exports.blogCreatePost = asyncHandler(async (req, res, next) => {
 
 	const { image, title, text, published } = req.body;
 
-	// Store the image in Cloudinary and retrieve the url.
-	const { url } = await cloudinary.uploader.upload(image, {
-		upload_preset: 'pubChairSports',
-	});
-
 	const post = new Post({
 		title: title,
 		text: text,
 		timestamp: Date.now(),
 		published: published,
 		user: req.user._id,
-		image: image,
 	});
 
 	if (!errors.isEmpty()) {
@@ -152,7 +146,14 @@ exports.blogCreatePost = asyncHandler(async (req, res, next) => {
 			message: errors.array(),
 		});
 	}
-	// Data from the form is valid. Save the post.
+	// Store the image in Cloudinary and retrieve the url.
+	const { url } = await cloudinary.uploader.upload(image, {
+		upload_preset: 'pubChairSports',
+	});
+
+	post.image = url;
+
+	// Store post in the db.
 	const { _id } = await post.save();
 	res.status(201).json({
 		id: _id,
