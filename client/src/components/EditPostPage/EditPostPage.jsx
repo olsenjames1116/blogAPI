@@ -11,7 +11,6 @@ import styles from './EditPostPage.module.css';
 function EditPostPage() {
 	const [message, setMessage] = useState([]);
 	const [image, setImage] = useState(null);
-	const [imageBase64, setImageBase64] = useState(null);
 	const [title, setTitle] = useState('');
 	const [text, setText] = useState('');
 	const [published, setPublished] = useState(false);
@@ -60,7 +59,7 @@ function EditPostPage() {
 		event.preventDefault();
 		try {
 			const response = await api.post('/post/create', {
-				image: imageBase64,
+				image: image,
 				title: title,
 				text: text,
 				published: published,
@@ -114,18 +113,13 @@ function EditPostPage() {
 		}
 	};
 
-	// Convert an image to base64 to store in the database.
-	const convertToBase64 = async (image) => {
-		return new Promise((resolve, reject) => {
-			const fileReader = new FileReader();
-			fileReader.readAsDataURL(image);
-			fileReader.onload = () => {
-				resolve(fileReader.result);
-			};
-			fileReader.onerror = (error) => {
-				reject(error);
-			};
-		});
+	// Displays the image selected by the user as a preview.
+	const displayPreviewImage = (image) => {
+		const reader = new FileReader();
+		reader.readAsDataURL(image);
+		reader.onloadend = () => {
+			setImage(reader.result);
+		};
 	};
 
 	// Reached when the user interacts with the input fields to store data in state.
@@ -135,8 +129,7 @@ function EditPostPage() {
 		// Switch to store the input based on which input field the user interacted with.
 		switch (id) {
 			case 'image':
-				setImageBase64(await convertToBase64(files[0]));
-				setImage(files[0]);
+				displayPreviewImage(files[0]);
 				break;
 			case 'title':
 				setTitle(value);

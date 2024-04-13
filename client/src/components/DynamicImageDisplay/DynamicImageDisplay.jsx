@@ -6,7 +6,7 @@ import styles from './DynamicImageDisplay.module.css';
 function DynamicImageDisplay({ image, removeImage }) {
 	return (
 		<div className={styles.dynamicImageDisplay}>
-			<img width="250px" src={URL.createObjectURL(image)} />
+			<img width="250px" src={image} />
 			<button type="button" onClick={removeImage}>
 				Remove
 			</button>
@@ -15,7 +15,7 @@ function DynamicImageDisplay({ image, removeImage }) {
 }
 
 DynamicImageDisplay.propTypes = {
-	image: PropTypes.object,
+	image: PropTypes.string,
 	removeImage: PropTypes.func,
 };
 
