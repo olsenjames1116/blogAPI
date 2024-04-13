@@ -36,3 +36,5 @@ This project highlights:
 - JSON web tokens
 - MVC architecture
 - CRUD operations
+
+© 2024 James Olsen. All Rights Reserved.

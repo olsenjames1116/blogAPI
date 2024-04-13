@@ -1,4 +1,14 @@
-.authorCredit > a {
+.authorCredit {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+}
+
+.authorCredit > p {
+	margin: 0;
+}
+
+.authorCredit a {
 	text-decoration: none;
 	color: var(--lighter);
 

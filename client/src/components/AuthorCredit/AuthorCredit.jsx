@@ -5,8 +5,11 @@ import styles from './AuthorCredit.module.css';
 function AuthorCredit() {
 	return (
 		<div className={styles.authorCredit}>
-			Built and designed by{' '}
-			<a href="https://github.com/olsenjames1116">olsenjames1116</a>
+			© 2024 James Olsen. All Rights Reserved.
+			<p>
+				Built and designed by{' '}
+				<a href="https://github.com/olsenjames1116">olsenjames1116</a>
+			</p>
 		</div>
 	);
 }
