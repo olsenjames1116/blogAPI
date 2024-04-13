@@ -19,6 +19,7 @@
 
 .text {
 	resize: none;
+	width: 100%;
 }
 
 .create {
