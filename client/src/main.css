@@ -2,8 +2,8 @@
 	--darkest: #021825;
 	--darker: #434a54;
 	--medium: #b14c32;
-	--lighter: #d4996f;
-	--lightest: #dcccbd;
+	--lighter: rgb(211, 209, 209);
+	--lightest: rgb(238, 221, 199);
 }
 
 /* * {
