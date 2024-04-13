@@ -2,3 +2,7 @@ main {
 	flex-grow: 1;
 	background-color: var(--lighter);
 }
+
+.tox-tinymce-aux {
+	display: none;
+}
