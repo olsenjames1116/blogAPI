@@ -30,3 +30,16 @@
 	background-color: #dc3545;
 	color: white;
 }
+
+@media (max-width: 1025px) {
+	.adminControls {
+		flex-direction: column;
+		align-items: center;
+		gap: 10px;
+
+		&& > button,
+		&& > a {
+			width: 50%;
+		}
+	}
+}
