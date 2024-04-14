@@ -10,7 +10,7 @@ function PostDetail({ post }) {
 		<div className={styles.detail}>
 			<h2 className={styles.title}>{post.title}</h2>
 			<div className={styles.imageContainer}>
-				<img src={post.image} />
+				<img src={post.image} className={styles.image} />
 			</div>
 			{parse(decode(post.text))}
 		</div>

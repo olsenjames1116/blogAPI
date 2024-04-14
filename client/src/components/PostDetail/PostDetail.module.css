@@ -17,15 +17,29 @@
 	display: flex;
 	justify-content: center;
 	flex-grow: 1;
-	max-height: 100%;
-	max-width: 100%;
+	height: 100%;
+	width: 100%;
+}
 
-	&& > img {
-		height: auto;
-		width: 100%;
-	}
+.image {
+	height: auto;
+	width: 800px;
 }
 
 .detail > p {
 	margin: 0;
+}
+
+@media (max-width: 1025px) {
+	.image {
+		width: 300px;
+		height: auto;
+	}
+}
+
+@media (max-width: 500px) {
+	.image {
+		height: auto;
+		width: 200px;
+	}
 }
